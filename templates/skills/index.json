@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "resources": [
+    {
+      "name": "pdf-processing",
+      "path": "pdf-processing",
+      "displayName": "PDF Processing",
+      "category": "document",
+      "description": "Extract text and tables from PDF files, fill forms, merge documents",
+      "dependencies": [],
+      "tags": ["pdf", "document", "extraction"]
+    },
+    {
+      "name": "data-visualization",
+      "path": "data-visualization",
+      "displayName": "Data Visualization",
+      "category": "data",
+      "description": "Create charts, graphs, and visualizations from data",
+      "dependencies": [],
+      "tags": ["charts", "visualization", "data"]
+    },
+    {
+      "name": "memory-bank",
+      "path": "memory-bank",
+      "displayName": "Memory Bank",
+      "category": "workflow",
+      "description": "Persistent project documentation system that maintains context across sessions with structured Memory Bank files",
+      "dependencies": [],
+      "tags": ["documentation", "context", "memory", "workflow", "persistence"]
+    },
+    {
+      "name": "python-fastapi",
+      "path": "python-fastapi",
+      "displayName": "Python FastAPI",
+      "category": "backend",
+      "description": "Python FastAPI development with uv package manager, modular project structure, SQLAlchemy ORM, and production-ready patterns",
+      "dependencies": [],
+      "tags": ["python", "fastapi", "uv", "sqlalchemy", "api", "backend", "async"]
+    }
+  ]
+}

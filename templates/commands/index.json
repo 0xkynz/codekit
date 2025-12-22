@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "resources": [
+    {
+      "name": "git/commit",
+      "path": "git/commit.md",
+      "displayName": "Git Commit",
+      "category": "git",
+      "description": "Create a git commit following the project's established style",
+      "dependencies": [],
+      "tags": ["git", "commit", "workflow"]
+    },
+    {
+      "name": "git/status",
+      "path": "git/status.md",
+      "displayName": "Git Status",
+      "category": "git",
+      "description": "Analyze git status and provide insights about current project state",
+      "dependencies": [],
+      "tags": ["git", "status", "workflow"]
+    },
+    {
+      "name": "code-review",
+      "path": "code-review.md",
+      "displayName": "Code Review",
+      "category": "workflow",
+      "description": "Multi-aspect code review using parallel code-review-expert agents",
+      "dependencies": [],
+      "tags": ["review", "quality", "workflow"]
+    },
+    {
+      "name": "validate-and-fix",
+      "path": "validate-and-fix.md",
+      "displayName": "Validate and Fix",
+      "category": "workflow",
+      "description": "Run quality checks and automatically fix issues using concurrent agents",
+      "dependencies": [],
+      "tags": ["validation", "linting", "workflow"]
+    }
+  ]
+}
