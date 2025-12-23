@@ -1,17 +1,21 @@
 # codekit
 
-CLI tool for managing AI coding assistant configurations - supports Claude Code, Cursor, and Gemini CLI.
+![codekit banner](docs/assets/codekit_banner.png)
+
+> **AI Configuration Manager** - Bridge the gap between domain expertise and AI agents.
 
 ## Overview
 
-codekit bridges the gap between domain expertise and AI agents. It helps you manage AI assistant configurations by providing:
+codekit is a CLI tool designed to help you strictly manage AI assistant configurations across **Claude Code**, **Cursor**, and **Gemini CLI**. It solves the problem of "drift" where AI rules, context, and instructions become scattered or outdated.
 
-- **Multi-platform support** - Generate rules for Claude, Cursor, and Gemini from a single source
-- **Project learning** - Scan existing projects to create context files with full dependency analysis
-- **Bundled templates** - Pre-built agents, skills, and commands ready to install
-- **Rule synchronization** - Keep all AI assistant configurations in sync
-- **Dual scope support** - Install to project (`.claude/`) or global (`~/.claude/`)
-- **Interactive setup** - Guided initialization for new projects
+With codekit, you define your **Agents** (personas), **Skills** (capabilities), and **Context** (memory bank) once, and synchronization ensures every AI tool you use respects the same boundaries and knowledge.
+
+### Why codekit?
+
+- **Unified Intelligence**: Write rules once, deploy to logic for Claude, Cursor, and Gemini.
+- **Project Memory/Context**: Automatically maintain a `memory-bank/` that persists project context across sessions.
+- **Progressive Skills**: Install powerful capabilities (like PDF processing or Data Viz) that load only when needed, saving context window.
+- **Instant Onboarding**: `codekit learn` scans your project and generates a perfect starting configuration in seconds.
 
 ## Supported AI Assistants
 
@@ -82,19 +86,26 @@ codekit agents add react-expert --global
 
 ## Core Concepts
 
-### What are Agents?
 
-Agents are specialized AI personas with domain expertise. Each agent is a markdown file containing YAML frontmatter (metadata) and instructions that give Claude specialized knowledge and behaviors for specific domains.
 
-### What are Skills?
+### 🤖 Agents (Personas)
+Agents are specialized AI personas with domain expertise. Each agent is a markdown file defined by YAML frontmatter and precise instructions. They give your AI assistant specialized knowledge for specific domains like **React**, **TypeScript**, or **DevOps**.
 
-Skills are directory-based, modular capabilities that extend Claude's functionality. Unlike agents (single files), skills are directories containing a `SKILL.md` file and optional supporting resources like scripts, templates, and reference documentation.
+### ⚡️ Skills (Capabilities)
+Skills are modular capabilities that extend functionality beyond simple prompts. They use **Progressive Disclosure** to keep your context window efficient:
 
-Skills use **progressive disclosure** - Claude loads information in stages as needed, keeping context usage efficient. See [SKILLS.md](SKILLS.md) for comprehensive documentation.
+```
+┌──────────────────────┐      ┌────────────────────────┐      ┌──────────────────────┐
+│  Level 1: Metadata   │  ->  │  Level 2: Instructions │  ->  │  Level 3: Resources  │
+│   (Always Loaded)    │      │    (Loaded on Use)     │      │     (As Needed)      │
+└──────────────────────┘      └────────────────────────┘      └──────────────────────┘
+   ~100 tokens/skill                ~2k tokens                     Unlimited
+```
 
-### What are Commands?
+**Why this matters:** You can have 50+ skills installed (PDF reading, Database access, Graphing), but Claude only "pays" the token cost for the ones it actually uses in the current session.
 
-Commands are user-defined slash operations that expand to prompts. When you type `/commit`, it expands to a full prompt that guides Claude through creating a commit.
+### 🛠️ Commands (Workflows)
+Commands are user-defined operations that expand into complex prompts. Typing `/commit` isn't just a text shortcut—it triggers a multi-step guided workflow that ensures your commit messages follow team standards, every time.
 
 ## Commands
 
