@@ -4,13 +4,12 @@ import type { InitOptions, ResourceType } from "../types";
 import { getClaudeDir, ensureDir, pathExists } from "../utils/paths";
 import { logger, style } from "../utils/logger";
 import { templateLoader } from "../core/template-loader";
-import { agentManager } from "../core/agent-manager";
 import { skillManager } from "../core/skill-manager";
 import { commandManager } from "../core/command-manager";
 
 export function createInitCommand(): Command {
   return new Command("init")
-    .description("Initialize a new Claude project with agents, skills, and commands")
+    .description("Initialize a new Claude project with skills and commands")
     .option("-g, --global", "Initialize in global ~/.claude directory")
     .option("-y, --yes", "Accept all defaults without prompting")
     .option("-f, --force", "Overwrite existing configuration")
@@ -50,16 +49,15 @@ async function initProject(options: InitOptions): Promise<void> {
     let resourceTypes: ResourceType[];
 
     if (options.yes) {
-      resourceTypes = ["agents", "commands"];
+      resourceTypes = ["skills", "commands"];
     } else {
       const selected = await prompts.multiselect({
         message: "What resources do you want to set up?",
         options: [
-          { value: "agents", label: "Agents", hint: "AI expert personas" },
           { value: "skills", label: "Skills", hint: "Reusable capabilities" },
           { value: "commands", label: "Commands", hint: "Slash commands" },
         ],
-        initialValues: ["agents", "commands"],
+        initialValues: ["skills", "commands"],
       });
 
       if (prompts.isCancel(selected)) {
@@ -153,11 +151,9 @@ async function initProject(options: InitOptions): Promise<void> {
       for (const name of names) {
         try {
           const manager =
-            type === "agents"
-              ? agentManager
-              : type === "skills"
-                ? skillManager
-                : commandManager;
+            type === "skills"
+              ? skillManager
+              : commandManager;
 
           await manager.add(name, {
             ...options,

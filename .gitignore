@@ -54,3 +54,10 @@ debug/
 .turbo/
 .eslintcache
 .prettiercache
+.claude
+memory-bank
+CLAUDE.md
+
+# Sources - cloned repos (keep config tracked)
+sources/*/
+!sources/sources.json

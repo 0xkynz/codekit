@@ -196,6 +196,18 @@ export class TemplateLoader {
   }
 
   /**
+   * List all VFS files under a skill directory (e.g., "skills/github/")
+   * Returns relative paths within the skill directory
+   */
+  listTemplateFiles(resourceType: ResourceType, skillName: string): string[] {
+    const prefix = `${resourceType}/${skillName}/`;
+    const allKeys = generatedVfs.list();
+    return allKeys
+      .filter((key) => key.startsWith(prefix) && key !== `${prefix}SKILL.md`)
+      .map((key) => key.slice(prefix.length));
+  }
+
+  /**
    * Scan filesystem for templates (development mode only)
    * This is used to generate the manifest
    */

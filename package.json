@@ -1,7 +1,7 @@
 {
   "name": "codekit",
   "version": "0.1.0",
-  "description": "CLI tool for managing Claude agent resources (agents, skills, commands)",
+  "description": "CLI tool for managing Claude code resources (skills and commands)",
   "type": "module",
   "bin": {
     "codekit": "./src/index.ts"
@@ -26,8 +26,8 @@
   "keywords": [
     "claude",
     "ai",
-    "agents",
     "skills",
+    "commands",
     "cli"
   ],
   "author": "",

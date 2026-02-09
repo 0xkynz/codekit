@@ -8,7 +8,7 @@
 
 codekit is a CLI tool designed to help you strictly manage AI assistant configurations across **Claude Code**, **Cursor**, and **Gemini CLI**. It solves the problem of "drift" where AI rules, context, and instructions become scattered or outdated.
 
-With codekit, you define your **Agents** (personas), **Skills** (capabilities), and **Context** (memory bank) once, and synchronization ensures every AI tool you use respects the same boundaries and knowledge.
+With codekit, you define your **Skills** (capabilities) and **Commands** (workflows) once, and synchronization ensures every AI tool you use respects the same boundaries and knowledge.
 
 ### Why codekit?
 
@@ -74,25 +74,22 @@ codekit sync
 # Initialize a new Claude project
 codekit init
 
-# List all available agents
-codekit agents list
+# List all available skills
+codekit skills list
 
-# Install an agent
-codekit agents add typescript-expert
+# Install a skill
+codekit skills add typescript-expert
 
 # Install to global ~/.claude directory
-codekit agents add react-expert --global
+codekit skills add react --global
 ```
 
 ## Core Concepts
 
 
 
-### 🤖 Agents (Personas)
-Agents are specialized AI personas with domain expertise. Each agent is a markdown file defined by YAML frontmatter and precise instructions. They give your AI assistant specialized knowledge for specific domains like **React**, **TypeScript**, or **DevOps**.
-
 ### ⚡️ Skills (Capabilities)
-Skills are modular capabilities that extend functionality beyond simple prompts. They use **Progressive Disclosure** to keep your context window efficient:
+Skills are modular capabilities that provide domain expertise and extend functionality beyond simple prompts. They use **Progressive Disclosure** to keep your context window efficient:
 
 ```
 ┌──────────────────────┐      ┌────────────────────────┐      ┌──────────────────────┐
@@ -207,63 +204,51 @@ codekit sync --dry-run     # Preview what would be synced
 - You want to update all AI assistant configs at once
 - New platform files need to be generated
 
-### `codekit agents`
+### `codekit skills`
 
-Manage agent definitions. Agents are specialized AI personas with domain expertise.
+Manage skill definitions. Skills are directory-based resources with domain expertise, instructions, and optional scripts.
 
-#### List Agents
+#### List Skills
 
 ```bash
-codekit agents list           # Show bundled and installed agents
-codekit agents list --global  # Show global agents only
-codekit agents ls             # Alias for list
+codekit skills list           # Show bundled and installed skills
+codekit skills list --global  # Show global skills only
+codekit skills ls             # Alias for list
 ```
 
 **Output shows:**
-- Bundled agents organized by category
+- Bundled skills organized by category
 - Installed status (checkmark indicates installed)
-- Global agents from `~/.claude/agents/`
-- Project agents from `./.claude/agents/`
+- Global skills from `~/.claude/skills/`
+- Project skills from `./.claude/skills/`
 
-#### Add Agent
+#### Add Skill
 
 ```bash
-codekit agents add <name>           # Install from bundled templates
-codekit agents add typescript-expert
-codekit agents add react-expert --global
-codekit agents add cli-expert --force      # Overwrite existing
-codekit agents add database-expert --dry-run
+codekit skills add <name>           # Install from bundled templates
+codekit skills add typescript-expert
+codekit skills add react --global
+codekit skills add cli-expert --force      # Overwrite existing
+codekit skills add database-expert --dry-run
 ```
 
 **Options:**
-- `-g, --global` - Install to `~/.claude/agents/`
+- `-g, --global` - Install to `~/.claude/skills/`
 - `-f, --force` - Overwrite if already installed
 - `--skip-deps` - Skip installing dependencies
 - `--dry-run` - Preview without writing
 
-#### Remove Agent
+#### Remove Skill
 
 ```bash
-codekit agents remove <name>         # Remove installed agent
-codekit agents rm typescript-expert  # Alias
-codekit agents remove react-expert --global
+codekit skills remove <name>         # Remove installed skill
+codekit skills rm typescript-expert  # Alias
+codekit skills remove react --global
 ```
 
 **Options:**
-- `-g, --global` - Remove from `~/.claude/agents/`
+- `-g, --global` - Remove from `~/.claude/skills/`
 - `-f, --force` - Skip confirmation prompt
-
-### `codekit skills`
-
-Manage skill definitions. Skills are directory-based resources with instructions and optional scripts.
-
-```bash
-codekit skills list
-codekit skills add pdf-processing
-codekit skills remove data-visualization --global
-```
-
-Same options as agents commands.
 
 ### `codekit commands`
 
@@ -275,20 +260,23 @@ codekit commands add git/commit
 codekit commands remove code-review --global
 ```
 
-Same options as agents commands.
+Same options as skills commands.
 
 ## Bundled Templates
 
-### Agents
+### Skills
 
-| Category | Agent | Description |
+| Category | Skill | Description |
 |----------|-------|-------------|
 | **backend** | fastapi | Python FastAPI, SQLAlchemy 2.0, Pydantic v2, uv, async APIs |
+| **backend** | python-fastapi | Python FastAPI project patterns and structure |
 | **backend** | elysiajs-ddd | ElysiaJS with DDD, Prisma, Better Auth, Bun runtime |
 | **backend** | elysiajs-ddd-mongoose | ElysiaJS with DDD, MongoDB, Mongoose, Better Auth |
 | **code-quality** | linting-expert | ESLint, Prettier, static analysis, CI/CD quality gates |
+| **data** | data-visualization | Create charts and visualizations |
 | **database** | database-expert | Database optimization across PostgreSQL, MySQL, MongoDB |
 | **devops** | cli-expert | npm CLI development, Unix philosophy, argument parsing |
+| **document** | pdf-processing | Extract and analyze PDF content |
 | **frontend** | react | React + Vite, TanStack, shadcn/ui, state management |
 | **frontend** | nextjs | Next.js 15, App Router, Server Components, Server Actions |
 | **frontend** | uiux-design-expert | Design systems, glassmorphism, accessibility |
@@ -297,15 +285,7 @@ Same options as agents commands.
 | **mobile** | react-native-expo | React Native with Expo workflow |
 | **testing** | testing-expert | Jest/Vitest, mocking patterns, test architecture |
 | **typescript** | typescript-expert | Type system, generics, compiler configuration |
-
-### Skills
-
-| Skill | Description |
-|-------|-------------|
-| memory-bank | Persistent project context across sessions |
-| python-fastapi | Python FastAPI project patterns and structure |
-| pdf-processing | Extract and analyze PDF content |
-| data-visualization | Create charts and visualizations |
+| **workflow** | memory-bank | Persistent project context across sessions |
 
 ### Commands
 
@@ -322,9 +302,9 @@ codekit manages the following directory structure:
 
 ```
 .claude/                    # Project-level (or ~/.claude/ for global)
-├── agents/                 # Agent definitions
-│   └── typescript-expert.md
 ├── skills/                 # Skill directories
+│   ├── typescript-expert/
+│   │   └── SKILL.md        # Required: skill instructions
 │   └── pdf-processing/
 │       ├── SKILL.md        # Required: skill instructions
 │       └── scripts/        # Optional: helper scripts
@@ -334,25 +314,6 @@ codekit manages the following directory structure:
 ```
 
 ## Resource Format
-
-### Agent Format
-
-Agents use YAML frontmatter followed by Markdown instructions:
-
-```markdown
----
-name: my-expert
-description: Description with "Use PROACTIVELY" triggers
-category: custom
-displayName: My Expert
-color: blue
-tools: Read, Edit, Bash
----
-
-# My Expert
-
-Instructions for the agent...
-```
 
 ### Skill Format
 
@@ -426,10 +387,10 @@ codekit learn
 # Initialize project
 codekit init
 
-# Add relevant agents
-codekit agents add typescript-expert
-codekit agents add linting-expert
-codekit agents add testing-expert
+# Add relevant skills
+codekit skills add typescript-expert
+codekit skills add linting-expert
+codekit skills add testing-expert
 
 # Add useful commands
 codekit commands add git/commit
@@ -442,26 +403,26 @@ codekit commands add validate-and-fix
 # Initialize global config
 codekit init --global
 
-# Add commonly used agents globally
-codekit agents add git-expert --global
-codekit agents add cli-expert --global
+# Add commonly used skills globally
+codekit skills add git-expert --global
+codekit skills add cli-expert --global
 ```
 
 ### Checking What's Installed
 
 ```bash
-# See all agents with installation status
-codekit agents list
+# See all skills with installation status
+codekit skills list
 
 # Output example:
-# Bundled Agents
+# Bundled Skills
 #   typescript
 #     ✓ typescript-expert - TypeScript Expert
 #
-# Global Agents (~/.claude/agents/)
+# Global Skills (~/.claude/skills/)
 #   ✓ git-expert - Git Expert
 #
-# Project Agents (./.claude/agents/)
+# Project Skills (./.claude/skills/)
 #   ✓ typescript-expert - TypeScript Expert
 ```
 
@@ -469,7 +430,7 @@ codekit agents list
 
 ```bash
 # See what would be installed
-codekit agents add react-expert --dry-run
+codekit skills add react --dry-run
 
 # Output shows file paths and content that would be written
 ```
@@ -480,7 +441,7 @@ codekit agents add react-expert --dry-run
 
 ```bash
 bun install
-bun run dev -- agents list
+bun run dev -- skills list
 ```
 
 ### Building
@@ -495,8 +456,8 @@ bun run build
 
 ### Adding New Templates
 
-1. Create the template file in `templates/<type>/<category>/<name>.md`
-2. Add entry to `templates/<type>/index.json` manifest
+1. Create a skill directory in `templates/skills/<name>/SKILL.md` or a command file in `templates/commands/<category>/<name>.md`
+2. Add entry to the appropriate `templates/<type>/index.json` manifest
 3. Rebuild VFS: `bun run build:vfs`
 
 ### Architecture
@@ -506,14 +467,12 @@ src/
 ├── index.ts              # Entry point
 ├── cli.ts                # CLI setup with commander.js
 ├── commands/             # Command handlers
-│   ├── agents/           # Agent management (list, add, remove)
 │   ├── skills/           # Skill management (list, add, remove)
 │   ├── commands/         # Command management (list, add, remove)
 │   ├── init.ts           # Project initialization
 │   └── learn.ts          # Project scanning/learning
 ├── core/                 # Core managers
 │   ├── resource-manager.ts   # Abstract base for managing resources
-│   ├── agent-manager.ts      # Agent-specific manager
 │   ├── skill-manager.ts      # Skill-specific manager
 │   ├── command-manager.ts    # Command-specific manager
 │   └── template-loader.ts    # Loads bundled templates from VFS

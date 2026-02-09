@@ -189,8 +189,17 @@ export class SkillManager extends ResourceManager<Skill> {
     );
     await Bun.write(join(skillDir, "SKILL.md"), mainContent);
 
-    // TODO: Copy additional bundled files if any
-    // This requires the template loader to support directory contents
+    // Copy additional bundled files (references, etc.)
+    const additionalFiles = templateLoader.listTemplateFiles(this.resourceType, name);
+    for (const relPath of additionalFiles) {
+      const content = await templateLoader.loadTemplate(
+        this.resourceType,
+        `${name}/${relPath}`
+      );
+      const targetPath = join(skillDir, relPath);
+      await ensureDir(dirname(targetPath));
+      await Bun.write(targetPath, content);
+    }
 
     if (!options.quiet) {
       logger.success(`Installed skill "${name}" to ${skillDir}`);

@@ -8,7 +8,11 @@
       "category": "document",
       "description": "Extract text and tables from PDF files, fill forms, merge documents",
       "dependencies": [],
-      "tags": ["pdf", "document", "extraction"]
+      "tags": [
+        "pdf",
+        "document",
+        "extraction"
+      ]
     },
     {
       "name": "data-visualization",
@@ -17,7 +21,11 @@
       "category": "data",
       "description": "Create charts, graphs, and visualizations from data",
       "dependencies": [],
-      "tags": ["charts", "visualization", "data"]
+      "tags": [
+        "charts",
+        "visualization",
+        "data"
+      ]
     },
     {
       "name": "memory-bank",
@@ -26,7 +34,13 @@
       "category": "workflow",
       "description": "Persistent project documentation system that maintains context across sessions with structured Memory Bank files",
       "dependencies": [],
-      "tags": ["documentation", "context", "memory", "workflow", "persistence"]
+      "tags": [
+        "documentation",
+        "context",
+        "memory",
+        "workflow",
+        "persistence"
+      ]
     },
     {
       "name": "python-fastapi",
@@ -35,7 +49,318 @@
       "category": "backend",
       "description": "Python FastAPI development with uv package manager, modular project structure, SQLAlchemy ORM, and production-ready patterns",
       "dependencies": [],
-      "tags": ["python", "fastapi", "uv", "sqlalchemy", "api", "backend", "async"]
+      "tags": [
+        "python",
+        "fastapi",
+        "uv",
+        "sqlalchemy",
+        "api",
+        "backend",
+        "async"
+      ]
+    },
+    {
+      "name": "fastapi",
+      "path": "fastapi",
+      "displayName": "FastAPI Expert",
+      "category": "backend",
+      "description": "Python FastAPI expert for async APIs, SQLAlchemy 2.0, Pydantic v2, uv package manager, and production patterns",
+      "dependencies": [],
+      "tags": [
+        "python",
+        "fastapi",
+        "sqlalchemy",
+        "pydantic",
+        "async",
+        "api",
+        "backend"
+      ]
+    },
+    {
+      "name": "elysiajs-ddd",
+      "path": "elysiajs-ddd",
+      "displayName": "ElysiaJS DDD Expert",
+      "category": "backend",
+      "description": "ElysiaJS with Domain-Driven Design, Prisma ORM, Better Auth, and Bun runtime for scalable TypeScript APIs",
+      "dependencies": [
+        "typescript-expert"
+      ],
+      "tags": [
+        "elysiajs",
+        "bun",
+        "ddd",
+        "prisma",
+        "better-auth",
+        "typescript",
+        "api",
+        "backend",
+        "clean-architecture"
+      ]
+    },
+    {
+      "name": "elysiajs-ddd-mongoose",
+      "path": "elysiajs-ddd-mongoose",
+      "displayName": "ElysiaJS DDD + MongoDB Expert",
+      "category": "backend",
+      "description": "ElysiaJS with Domain-Driven Design, MongoDB, Mongoose ODM, Better Auth, and Bun runtime for document-based APIs",
+      "dependencies": [
+        "typescript-expert"
+      ],
+      "tags": [
+        "elysiajs",
+        "bun",
+        "ddd",
+        "mongodb",
+        "mongoose",
+        "better-auth",
+        "typescript",
+        "api",
+        "backend",
+        "clean-architecture",
+        "nosql"
+      ]
+    },
+    {
+      "name": "database-expert",
+      "path": "database-expert",
+      "displayName": "Database Expert",
+      "category": "database",
+      "description": "Database performance optimization, schema design, query optimization across PostgreSQL, MySQL, MongoDB",
+      "dependencies": [],
+      "tags": [
+        "database",
+        "sql",
+        "optimization",
+        "queries"
+      ]
+    },
+    {
+      "name": "typescript-expert",
+      "path": "typescript-expert",
+      "displayName": "TypeScript Expert",
+      "category": "typescript",
+      "description": "TypeScript language expert for type system, generics, module resolution, and compiler configuration",
+      "dependencies": [],
+      "tags": [
+        "typescript",
+        "types",
+        "compiler"
+      ]
+    },
+    {
+      "name": "testing-expert",
+      "path": "testing-expert",
+      "displayName": "Testing Expert",
+      "category": "testing",
+      "description": "Testing strategies, Jest/Vitest configuration, mocking patterns, and test architecture",
+      "dependencies": [],
+      "tags": [
+        "testing",
+        "jest",
+        "vitest",
+        "tdd"
+      ]
+    },
+    {
+      "name": "git-expert",
+      "path": "git-expert",
+      "displayName": "Git Expert",
+      "category": "git",
+      "description": "Git workflow expert for merge conflicts, branching strategies, history rewriting, and repository management",
+      "dependencies": [],
+      "tags": [
+        "git",
+        "version-control",
+        "branches"
+      ]
+    },
+    {
+      "name": "react",
+      "path": "react",
+      "displayName": "React Expert",
+      "category": "frontend",
+      "description": "React development with Vite, TypeScript, shadcn/ui, TanStack (Query, Table, Router), forms, and state management. For SPAs and client-side apps.",
+      "dependencies": [],
+      "tags": [
+        "react",
+        "vite",
+        "typescript",
+        "shadcn",
+        "tanstack",
+        "spa",
+        "frontend"
+      ]
+    },
+    {
+      "name": "nextjs",
+      "path": "nextjs",
+      "displayName": "Next.js Expert",
+      "category": "frontend",
+      "description": "Next.js 15 with App Router, Server Components, Server Actions, TypeScript, and full-stack patterns. For SSR/SSG and full-stack apps.",
+      "dependencies": [],
+      "tags": [
+        "nextjs",
+        "react",
+        "typescript",
+        "server-components",
+        "server-actions",
+        "ssr",
+        "ssg",
+        "frontend"
+      ]
+    },
+    {
+      "name": "uiux-design-expert",
+      "path": "uiux-design-expert",
+      "displayName": "UI/UX Design Expert",
+      "category": "frontend",
+      "description": "Modern UI/UX design systems, visual styles (glassmorphism, neumorphism, brutalism, etc.), accessibility patterns, and CSS implementation",
+      "dependencies": [],
+      "tags": [
+        "ui",
+        "ux",
+        "design",
+        "css",
+        "accessibility",
+        "design-system",
+        "glassmorphism",
+        "neumorphism"
+      ]
+    },
+    {
+      "name": "linting-expert",
+      "path": "linting-expert",
+      "displayName": "Linting Expert",
+      "category": "code-quality",
+      "description": "Code linting, formatting, static analysis, and coding standards enforcement across multiple languages and tools",
+      "dependencies": [],
+      "tags": [
+        "eslint",
+        "prettier",
+        "linting",
+        "code-quality",
+        "static-analysis",
+        "security"
+      ]
+    },
+    {
+      "name": "cli-expert",
+      "path": "cli-expert",
+      "displayName": "CLI Development Expert",
+      "category": "devops",
+      "description": "Expert in building npm package CLIs with Unix philosophy, argument parsing, interactive modes, and CLI library ecosystems",
+      "dependencies": [],
+      "tags": [
+        "cli",
+        "npm",
+        "command-line",
+        "unix",
+        "devops",
+        "commander",
+        "yargs"
+      ]
+    },
+    {
+      "name": "react-native",
+      "path": "react-native",
+      "displayName": "React Native CLI Expert",
+      "category": "mobile",
+      "description": "React Native CLI bare workflow, native modules, TypeScript, and platform-specific code for apps requiring native customization",
+      "dependencies": [],
+      "tags": [
+        "react-native",
+        "mobile",
+        "ios",
+        "android",
+        "native-modules",
+        "typescript"
+      ]
+    },
+    {
+      "name": "react-native-expo",
+      "path": "react-native-expo",
+      "displayName": "React Native Expo Expert",
+      "category": "mobile",
+      "description": "React Native + Expo managed workflow, Expo Router, TypeScript, and mobile best practices for rapid mobile development",
+      "dependencies": [],
+      "tags": [
+        "react-native",
+        "expo",
+        "mobile",
+        "ios",
+        "android",
+        "expo-router",
+        "typescript"
+      ]
+    },
+    {
+      "name": "react-native-best-practices",
+      "path": "react-native-best-practices",
+      "displayName": "React Native Best Practices",
+      "category": "mobile",
+      "description": "Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.",
+      "dependencies": [],
+      "tags": [
+        "react-native",
+        "expo",
+        "performance",
+        "optimization",
+        "profiling"
+      ],
+      "source": "agent-skills"
+    },
+    {
+      "name": "github",
+      "path": "github",
+      "displayName": "Github",
+      "category": "workflow",
+      "description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation. Use when working with GitHub PRs, merging strategies, or repository management tasks.",
+      "dependencies": [],
+      "tags": [
+        "github",
+        "gh-cli",
+        "pull-request",
+        "stacked-pr",
+        "squash",
+        "rebase"
+      ],
+      "source": "agent-skills"
+    },
+    {
+      "name": "web-design-guidelines",
+      "path": "web-design-guidelines",
+      "displayName": "Web Design Guidelines",
+      "category": "frontend",
+      "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\".",
+      "dependencies": [],
+      "source": "vercel-agent-skills"
+    },
+    {
+      "name": "vercel-composition-patterns",
+      "path": "vercel-composition-patterns",
+      "displayName": "Vercel Composition Patterns",
+      "category": "frontend",
+      "description": "React composition patterns that scale. Use when refactoring components with boolean prop proliferation, building flexible component libraries, or designing reusable APIs. Triggers on tasks involving compound components, render props, context providers, or component architecture. Includes React 19 API changes.",
+      "dependencies": [],
+      "source": "vercel-agent-skills"
+    },
+    {
+      "name": "vercel-react-best-practices",
+      "path": "vercel-react-best-practices",
+      "displayName": "Vercel React Best Practices",
+      "category": "frontend",
+      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.",
+      "dependencies": [],
+      "source": "vercel-agent-skills"
+    },
+    {
+      "name": "vercel-react-native-skills",
+      "path": "vercel-react-native-skills",
+      "displayName": "Vercel React Native Skills",
+      "category": "mobile",
+      "description": "React Native and Expo best practices for building performant mobile apps. Use when building React Native components, optimizing list performance, implementing animations, or working with native modules. Triggers on tasks involving React Native, Expo, mobile performance, or native platform APIs.",
+      "dependencies": [],
+      "source": "vercel-agent-skills"
     }
   ]
 }

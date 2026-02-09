@@ -1,52 +1,7 @@
 // Resource types for codekit
 
-export type ResourceType = "agents" | "skills" | "commands";
+export type ResourceType = "skills" | "commands";
 export type ResourceSource = "bundled" | "project" | "global";
-
-// Agent types
-export type AgentCategory =
-  | "database"
-  | "framework"
-  | "testing"
-  | "infrastructure"
-  | "frontend"
-  | "documentation"
-  | "refactoring"
-  | "git"
-  | "code-quality"
-  | "nodejs"
-  | "typescript"
-  | "react"
-  | "kafka"
-  | "general";
-
-export type AgentColor =
-  | "blue"
-  | "cyan"
-  | "purple"
-  | "green"
-  | "yellow"
-  | "red"
-  | "magenta"
-  | "white";
-
-export interface AgentFrontmatter {
-  name: string;
-  description: string;
-  category?: AgentCategory;
-  displayName?: string;
-  color?: AgentColor;
-  tools?: string;
-  bundle?: string[];
-  [key: string]: unknown;
-}
-
-export interface Agent {
-  frontmatter: AgentFrontmatter;
-  content: string;
-  filePath: string;
-  source: ResourceSource;
-}
 
 // Command types
 export interface CommandFrontmatter {
@@ -88,6 +43,30 @@ export interface ResourceManifestEntry {
   description: string;
   dependencies?: string[];
   tags?: string[];
+  source?: string; // marks entry as source-synced (e.g. "agent-skills")
+}
+
+// Source types for external skill repos
+export interface SourceConfig {
+  name: string;
+  url: string;
+  branch?: string;
+  skillsDir?: string;
+  exclude?: string[];
+  categoryMapping?: Record<string, string>;
+  defaultCategory?: string;
+}
+
+export interface SourcesManifest {
+  version: string;
+  sources: SourceConfig[];
+}
+
+export interface SyncResult {
+  added: string[];
+  updated: string[];
+  skipped: string[];
+  total: number;
 }
 
 export interface ResourceManifest {

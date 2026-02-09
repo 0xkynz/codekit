@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "sources": [
+    {
+      "name": "agent-skills",
+      "url": "https://github.com/callstackincubator/agent-skills.git",
+      "branch": "main",
+      "skillsDir": "skills",
+      "exclude": [],
+      "categoryMapping": {
+        "github": "workflow",
+        "react-native-best-practices": "mobile"
+      }
+    },
+    {
+      "name": "vercel-agent-skills",
+      "url": "https://github.com/vercel-labs/agent-skills.git",
+      "branch": "main",
+      "skillsDir": "skills",
+      "exclude": ["claude.ai"],
+      "categoryMapping": {
+        "vercel-react-best-practices": "frontend",
+        "vercel-composition-patterns": "frontend",
+        "vercel-react-native-skills": "mobile",
+        "web-design-guidelines": "frontend"
+      }
+    }
+  ]
+}

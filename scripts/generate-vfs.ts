@@ -10,6 +10,19 @@ import { join, relative } from "path";
 const TEMPLATES_DIR = join(import.meta.dir, "../templates");
 const OUTPUT_FILE = join(import.meta.dir, "../src/templates.generated.ts");
 
+// Binary file extensions to skip in VFS (cannot be embedded as UTF-8 strings)
+const BINARY_EXTENSIONS = new Set([
+  ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".webp", ".svg",
+  ".woff", ".woff2", ".ttf", ".eot",
+  ".zip", ".tar", ".gz", ".bz2",
+  ".pdf", ".doc", ".docx",
+]);
+
+function isBinaryFile(filename: string): boolean {
+  const ext = filename.toLowerCase().slice(filename.lastIndexOf("."));
+  return BINARY_EXTENSIONS.has(ext);
+}
+
 interface TemplateEntry {
   path: string;
   content: string;
@@ -28,7 +41,7 @@ async function scanDirectory(dir: string, basePath: string = ""): Promise<Templa
       if (item.isDirectory()) {
         const subEntries = await scanDirectory(fullPath, relativePath);
         entries.push(...subEntries);
-      } else {
+      } else if (!isBinaryFile(item.name)) {
         const content = await readFile(fullPath, "utf-8");
         entries.push({
           path: relativePath,
@@ -46,7 +59,7 @@ async function scanDirectory(dir: string, basePath: string = ""): Promise<Templa
 async function generateVFS(): Promise<void> {
   console.log("Scanning templates directory...");
 
-  const resourceTypes = ["agents", "commands", "skills"];
+  const resourceTypes = ["commands", "skills"];
   const allEntries: Map<string, string> = new Map();
   const manifests: Map<string, unknown> = new Map();
 

@@ -1,11 +1,11 @@
 import { Command } from "commander";
 import { setVerbose } from "./utils/logger";
-import { createAgentsCommand } from "./commands/agents";
 import { createSkillsCommand } from "./commands/skills";
 import { createCommandsCommand } from "./commands/commands";
 import { createInitCommand } from "./commands/init";
 import { createLearnCommand } from "./commands/learn";
 import { createSyncCommand } from "./commands/sync";
+import { createSourcesCommand } from "./commands/sources";
 
 const VERSION = "0.1.0";
 
@@ -14,7 +14,7 @@ export function createCLI(): Command {
 
   program
     .name("codekit")
-    .description("CLI tool for managing Claude agent resources (agents, skills, commands)")
+    .description("CLI tool for managing Claude code resources (skills and commands)")
     .version(VERSION)
     .option("-v, --verbose", "Enable verbose output")
     .hook("preAction", (thisCommand) => {
@@ -28,9 +28,9 @@ export function createCLI(): Command {
   program.addCommand(createInitCommand());
   program.addCommand(createLearnCommand());
   program.addCommand(createSyncCommand());
-  program.addCommand(createAgentsCommand());
   program.addCommand(createSkillsCommand());
   program.addCommand(createCommandsCommand());
+  program.addCommand(createSourcesCommand());
 
   return program;
 }

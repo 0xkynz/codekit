@@ -100,7 +100,6 @@ export const style = {
   muted: chalk.gray,
 
   // Resource type colors
-  agent: chalk.cyan,
   skill: chalk.magenta,
   command: chalk.yellow,
 

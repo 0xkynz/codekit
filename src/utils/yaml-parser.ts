@@ -51,28 +51,6 @@ export function serializeMarkdownWithFrontmatter<T extends Record<string, unknow
 }
 
 /**
- * Validate agent frontmatter
- */
-export function validateAgentFrontmatter(
-  frontmatter: { name?: unknown; description?: unknown; [key: string]: unknown }
-): { valid: boolean; errors: string[] } {
-  const errors: string[] = [];
-
-  if (!frontmatter.name || typeof frontmatter.name !== "string") {
-    errors.push("Missing required field: name");
-  }
-
-  if (!frontmatter.description || typeof frontmatter.description !== "string") {
-    errors.push("Missing required field: description");
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
-}
-
-/**
  * Validate command frontmatter
  */
 export function validateCommandFrontmatter(
