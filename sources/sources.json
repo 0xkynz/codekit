@@ -24,6 +24,16 @@
         "vercel-react-native-skills": "mobile",
         "web-design-guidelines": "frontend"
       }
+    },
+    {
+      "name": "chrome-devtools-mcp",
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp.git",
+      "branch": "main",
+      "skillsDir": "skills",
+      "exclude": [],
+      "categoryMapping": {
+        "chrome-devtools-mcp": "devtools"
+      }
     }
   ]
 }

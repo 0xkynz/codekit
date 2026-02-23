@@ -129,6 +129,14 @@ export class TemplateLoader {
   }
 
   /**
+   * Get the filesystem path for a template (returns null when compiled)
+   */
+  getTemplatePath(resourceType: ResourceType, templatePath: string): string | null {
+    if (this.compiled) return null;
+    return join(this.basePath, resourceType, templatePath);
+  }
+
+  /**
    * List all available templates for a resource type
    */
   async listAvailableTemplates(

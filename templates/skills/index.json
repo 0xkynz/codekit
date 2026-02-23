@@ -361,6 +361,85 @@
       "description": "React Native and Expo best practices for building performant mobile apps. Use when building React Native components, optimizing list performance, implementing animations, or working with native modules. Triggers on tasks involving React Native, Expo, mobile performance, or native platform APIs.",
       "dependencies": [],
       "source": "vercel-agent-skills"
+    },
+    {
+      "name": "figma-make-website-builder",
+      "path": "figma-make-website-builder",
+      "displayName": "Figma Make Website Builder",
+      "category": "workflow",
+      "description": "Structured 9-phase workflow for building production-ready websites using Claude (architecture, logic, reasoning) paired with Figma Make (UI, interactions, deployment). Covers architecture, design systems, content, component logic, prompt engineering, animation, responsive design, data integration, and QA.",
+      "dependencies": [],
+      "tags": [
+        "figma",
+        "figma-make",
+        "website",
+        "design",
+        "workflow",
+        "production",
+        "responsive",
+        "design-system",
+        "supabase"
+      ]
+    },
+    {
+      "name": "zvec",
+      "path": "zvec",
+      "displayName": "Zvec Vector Database",
+      "category": "database",
+      "description": "Zvec vector database development — collection management, vector similarity search, schema design, embedding functions, indexing strategies (Flat, HNSW, IVF), and query optimization",
+      "dependencies": [],
+      "tags": [
+        "zvec",
+        "vector-database",
+        "embeddings",
+        "similarity-search",
+        "hnsw",
+        "ivf",
+        "reranking",
+        "python",
+        "database"
+      ]
+    },
+    {
+      "name": "pgvector",
+      "path": "pgvector",
+      "displayName": "pgvector",
+      "category": "database",
+      "description": "pgvector — open-source vector similarity search for Postgres. HNSW and IVFFlat indexing, half-precision/binary/sparse vectors, filtering, hybrid search, and performance tuning",
+      "dependencies": [],
+      "tags": [
+        "pgvector",
+        "postgres",
+        "postgresql",
+        "vector-database",
+        "similarity-search",
+        "hnsw",
+        "ivfflat",
+        "embeddings",
+        "database",
+        "sql"
+      ]
+    },
+    {
+      "name": "chrome-devtools",
+      "path": "chrome-devtools",
+      "displayName": "Chrome DevTools MCP",
+      "category": "devops",
+      "description": "Chrome DevTools via MCP for browser automation, debugging, performance analysis, network inspection, and accessibility testing. Use when debugging web pages, automating browser interactions, analyzing performance, or auditing accessibility.",
+      "dependencies": [],
+      "tags": [
+        "chrome",
+        "devtools",
+        "mcp",
+        "browser",
+        "automation",
+        "debugging",
+        "performance",
+        "accessibility",
+        "a11y",
+        "puppeteer",
+        "testing"
+      ]
     }
   ]
 }

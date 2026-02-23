@@ -11,7 +11,7 @@ import type {
   ValidationResult,
   ResourceManifestEntry,
 } from "../types";
-import { getResourceDir, ensureDir, pathExists } from "../utils/paths";
+import { getResourceDir, ensureDir, pathExists, createSymlink } from "../utils/paths";
 import { templateLoader } from "./template-loader";
 import { logger } from "../utils/logger";
 
@@ -149,7 +149,37 @@ export abstract class ResourceManager<T> {
       return;
     }
 
-    // Ensure directory exists
+    // Try symlink-first: link file from templates
+    const templateFsPath = templateLoader.getTemplatePath(this.resourceType, template.path);
+    if (templateFsPath) {
+      try {
+        await ensureDir(dirname(targetPath));
+        await createSymlink(templateFsPath, targetPath);
+        if (!options.quiet) {
+          logger.success(`Installed "${name}" to ${targetPath}`);
+        }
+
+        // Handle dependencies (even for symlinked resources)
+        if (template.dependencies && template.dependencies.length > 0 && !options.skipDeps) {
+          for (const dep of template.dependencies) {
+            try {
+              await this.add(dep, { ...options, quiet: true });
+              if (!options.quiet) {
+                logger.success(`Installed dependency "${dep}"`);
+              }
+            } catch {
+              logger.warn(`Dependency "${dep}" could not be installed`);
+            }
+          }
+        }
+        return;
+      } catch {
+        // Symlink failed, fall through to copy
+        logger.debug(`Symlink failed for "${name}", falling back to copy`);
+      }
+    }
+
+    // Fallback: copy content (compiled mode or symlink failure)
     await ensureDir(dirname(targetPath));
 
     // Write file

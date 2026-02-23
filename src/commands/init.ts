@@ -1,7 +1,7 @@
 import { Command } from "commander";
 import * as prompts from "@clack/prompts";
 import type { InitOptions, ResourceType } from "../types";
-import { getClaudeDir, ensureDir, pathExists } from "../utils/paths";
+import { getClaudeDir, getGeminiDir, ensureDir, pathExists } from "../utils/paths";
 import { logger, style } from "../utils/logger";
 import { templateLoader } from "../core/template-loader";
 import { skillManager } from "../core/skill-manager";
@@ -118,12 +118,22 @@ async function initProject(options: InitOptions): Promise<void> {
 
     // Show summary
     if (options.dryRun) {
+      const geminiDir = getGeminiDir(options);
+
       logger.section("Would create:");
       logger.log(`  ${style.dim(targetDir)}`);
 
       for (const [type, names] of toInstall) {
         logger.log(`  ${style.dim(`├── ${type}/`)}`);
         for (const name of names) {
+          logger.log(`  ${style.dim(`│   └── ${name}`)}`);
+        }
+      }
+
+      logger.log(`  ${style.dim(geminiDir)}`);
+      if (toInstall.has("skills")) {
+        logger.log(`  ${style.dim("├── skills/")}`);
+        for (const name of toInstall.get("skills")!) {
           logger.log(`  ${style.dim(`│   └── ${name}`)}`);
         }
       }
@@ -139,6 +149,12 @@ async function initProject(options: InitOptions): Promise<void> {
     await ensureDir(targetDir);
     for (const type of resourceTypes) {
       await ensureDir(`${targetDir}/${type}`);
+    }
+
+    // Create Gemini Antigravity directories for skills
+    if (resourceTypes.includes("skills")) {
+      const geminiDir = getGeminiDir(options);
+      await ensureDir(`${geminiDir}/skills`);
     }
 
     spinner.stop("Directories created");

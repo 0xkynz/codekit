@@ -14,7 +14,7 @@ import {
   parseMarkdownWithFrontmatter,
   validateSkillFrontmatter,
 } from "../utils/yaml-parser";
-import { getResourceDir, ensureDir, pathExists } from "../utils/paths";
+import { getResourceDir, getGeminiResourceDir, ensureDir, pathExists, createSymlink } from "../utils/paths";
 import { templateLoader } from "./template-loader";
 import { logger } from "../utils/logger";
 
@@ -95,7 +95,7 @@ export class SkillManager extends ResourceManager<Skill> {
       const entries = await readdir(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        if (!entry.isDirectory()) continue;
+        if (!entry.isDirectory() && !entry.isSymbolicLink()) continue;
 
         const skillDir = join(dir, entry.name);
         const skillFile = join(skillDir, "SKILL.md");
@@ -175,35 +175,56 @@ export class SkillManager extends ResourceManager<Skill> {
     }
 
     if (options.dryRun) {
+      const geminiSkillDir = join(getGeminiResourceDir(this.resourceType, options), name);
       logger.info(`Would install skill "${name}" to ${skillDir}`);
+      logger.info(`Would mirror skill "${name}" to ${geminiSkillDir}`);
       return;
     }
 
-    // Create skill directory
-    await ensureDir(skillDir);
+    // Try symlink-first: link entire skill directory from templates
+    let installed = false;
+    const templatePath = templateLoader.getTemplatePath(this.resourceType, name);
+    if (templatePath) {
+      try {
+        await ensureDir(targetDir);
+        await createSymlink(templatePath, skillDir);
+        installed = true;
+      } catch {
+        // Symlink failed, fall through to copy
+        logger.debug(`Symlink failed for skill "${name}", falling back to copy`);
+      }
+    }
 
-    // Load and write SKILL.md
-    const mainContent = await templateLoader.loadTemplate(
-      this.resourceType,
-      `${name}/SKILL.md`
-    );
-    await Bun.write(join(skillDir, "SKILL.md"), mainContent);
+    if (!installed) {
+      // Fallback: copy files individually (compiled mode or symlink failure)
+      await ensureDir(skillDir);
 
-    // Copy additional bundled files (references, etc.)
-    const additionalFiles = templateLoader.listTemplateFiles(this.resourceType, name);
-    for (const relPath of additionalFiles) {
-      const content = await templateLoader.loadTemplate(
+      // Load and write SKILL.md
+      const mainContent = await templateLoader.loadTemplate(
         this.resourceType,
-        `${name}/${relPath}`
+        `${name}/SKILL.md`
       );
-      const targetPath = join(skillDir, relPath);
-      await ensureDir(dirname(targetPath));
-      await Bun.write(targetPath, content);
+      await Bun.write(join(skillDir, "SKILL.md"), mainContent);
+
+      // Copy additional bundled files (references, etc.)
+      const additionalFiles = templateLoader.listTemplateFiles(this.resourceType, name);
+      for (const relPath of additionalFiles) {
+        const content = await templateLoader.loadTemplate(
+          this.resourceType,
+          `${name}/${relPath}`
+        );
+        const targetFilePath = join(skillDir, relPath);
+        await ensureDir(dirname(targetFilePath));
+        await Bun.write(targetFilePath, content);
+      }
     }
 
     if (!options.quiet) {
       logger.success(`Installed skill "${name}" to ${skillDir}`);
     }
+
+    // Mirror to Gemini Antigravity directory (best-effort)
+    await this.mirrorToGemini(name, options);
   }
 
   /**
@@ -218,14 +239,88 @@ export class SkillManager extends ResourceManager<Skill> {
     }
 
     if (options.dryRun) {
+      const geminiSkillDir = join(getGeminiResourceDir(this.resourceType, options), name);
       logger.info(`Would remove skill "${name}" from ${skillDir}`);
+      logger.info(`Would remove Gemini mirror from ${geminiSkillDir}`);
       return;
     }
 
     await rm(skillDir, { recursive: true, force: true });
 
+    // Remove from Gemini directory (best-effort)
+    await this.removeFromGemini(name, options);
+
     if (!options.quiet) {
       logger.success(`Removed skill "${name}"`);
+    }
+  }
+
+  /**
+   * Mirror a skill installation to the Gemini Antigravity directory (best-effort)
+   */
+  private async mirrorToGemini(name: string, options: AddOptions): Promise<void> {
+    try {
+      const geminiDir = getGeminiResourceDir(this.resourceType, options);
+      const geminiSkillDir = join(geminiDir, name);
+
+      if (await pathExists(geminiSkillDir)) {
+        if (!options.force) return;
+        await rm(geminiSkillDir, { recursive: true, force: true });
+      }
+
+      // Try symlink-first, same as Claude install
+      const templatePath = templateLoader.getTemplatePath(this.resourceType, name);
+      if (templatePath) {
+        try {
+          await ensureDir(geminiDir);
+          await createSymlink(templatePath, geminiSkillDir);
+          logger.debug(`Mirrored skill "${name}" to ${geminiSkillDir}`);
+          return;
+        } catch {
+          logger.debug(`Symlink failed for Gemini mirror of "${name}", falling back to copy`);
+        }
+      }
+
+      // Fallback: copy files
+      await ensureDir(geminiSkillDir);
+
+      const mainContent = await templateLoader.loadTemplate(
+        this.resourceType,
+        `${name}/SKILL.md`
+      );
+      await Bun.write(join(geminiSkillDir, "SKILL.md"), mainContent);
+
+      const additionalFiles = templateLoader.listTemplateFiles(this.resourceType, name);
+      for (const relPath of additionalFiles) {
+        const content = await templateLoader.loadTemplate(
+          this.resourceType,
+          `${name}/${relPath}`
+        );
+        const targetFilePath = join(geminiSkillDir, relPath);
+        await ensureDir(dirname(targetFilePath));
+        await Bun.write(targetFilePath, content);
+      }
+
+      logger.debug(`Mirrored skill "${name}" to ${geminiSkillDir}`);
+    } catch (error) {
+      logger.warn(`Failed to mirror skill "${name}" to Gemini directory: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  }
+
+  /**
+   * Remove a skill from the Gemini Antigravity directory (best-effort)
+   */
+  private async removeFromGemini(name: string, options: RemoveOptions): Promise<void> {
+    try {
+      const geminiDir = getGeminiResourceDir(this.resourceType, options);
+      const geminiSkillDir = join(geminiDir, name);
+
+      if (await pathExists(geminiSkillDir)) {
+        await rm(geminiSkillDir, { recursive: true, force: true });
+        logger.debug(`Removed Gemini mirror of skill "${name}"`);
+      }
+    } catch {
+      // Silently ignore — Gemini dir may have been manually removed
     }
   }
 
