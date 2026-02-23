@@ -440,6 +440,45 @@
         "puppeteer",
         "testing"
       ]
+    },
+    {
+      "name": "github-actions",
+      "path": "github-actions",
+      "displayName": "GitHub Actions CI/CD",
+      "category": "devops",
+      "description": "GitHub Actions CI/CD best practices — workflow structure, security, caching, matrix strategies, testing, deployment strategies, rollback, and troubleshooting",
+      "dependencies": [],
+      "tags": [
+        "github-actions",
+        "ci-cd",
+        "workflows",
+        "deployment",
+        "testing",
+        "security",
+        "caching",
+        "devops",
+        "automation"
+      ]
+    },
+    {
+      "name": "mobile-app-distribution",
+      "path": "mobile-app-distribution",
+      "displayName": "Mobile App Distribution",
+      "category": "mobile",
+      "description": "Mobile app distribution for iOS App Store and Google Play Store — React Native signing, building, publishing, Apple review guidelines, and pre-submission checklists",
+      "dependencies": [],
+      "tags": [
+        "mobile",
+        "app-store",
+        "google-play",
+        "react-native",
+        "ios",
+        "android",
+        "signing",
+        "distribution",
+        "publishing",
+        "review-guidelines"
+      ]
     }
   ]
 }
