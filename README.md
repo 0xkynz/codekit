@@ -412,6 +412,25 @@ codekit commands add git/commit   # Install a command
 codekit commands remove <name>    # Uninstall
 ```
 
+### `codekit sources`
+
+Manage external skill repositories — clone, sync, and track third-party skill collections.
+
+```bash
+codekit sources list              # Show configured sources and their skills
+codekit sources list --json       # JSON output
+codekit sources add <url>         # Add a source repository
+codekit sources add <url> -n name # Add with custom name
+codekit sources remove <name>     # Remove a source
+codekit sources pull              # Clone or update all source repos
+codekit sources pull -s <name>    # Pull a specific source
+codekit sources sync              # Scan sources and sync skills to templates
+codekit sources sync --dry-run    # Preview without writing
+codekit sources sync -s <name>    # Sync a specific source
+```
+
+Sources are configured in `sources/sources.json` and skills are synced into `templates/skills/` with automatic `source` attribution in the manifest.
+
 ---
 
 ## How It Works
@@ -517,6 +536,31 @@ bun run build                    # Build binary
 2. Add entry to `templates/skills/index.json` (with `relatedSkills` for mesh connections)
 3. Run `bun run build:vfs`
 
+### Skill Sources
+
+Many bundled skills are sourced from external repositories. The `sources/` directory manages these:
+
+| Source | Repository | Skills |
+|--------|-----------|--------|
+| `agent-skills` | [callstackincubator/agent-skills](https://github.com/callstackincubator/agent-skills) | `github`, `react-native-best-practices` |
+| `vercel-agent-skills` | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | `vercel-react-best-practices`, `vercel-composition-patterns`, `vercel-react-native-skills`, `web-design-guidelines` |
+| `chrome-devtools-mcp` | [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) | `chrome-devtools`, `a11y-debugging` |
+| `apex-os-bad-boy` | [fratilanico/apex-os-bad-boy](https://github.com/fratilanico/apex-os-bad-boy) | `nextjs-master`, `shadcn-master`, `supabase-expert`, `docker-best-practices`, `systematic-debugging`, `test-driven-development`, +26 more |
+| `terraform-skill` | [antonbabenko/terraform-skill](https://github.com/antonbabenko/terraform-skill) | `terraform` |
+| `better-auth-skills` | [better-auth/skills](https://github.com/better-auth/skills) | `better-auth-best-practices`, `email-and-password-best-practices`, `organization-best-practices`, `two-factor-authentication-best-practices`, `create-auth-skill` |
+| `anthropic-skills` | [anthropics/skills](https://github.com/anthropics/skills) | `pdf`, `docx`, `xlsx`, `pptx`, `mcp-builder`, `frontend-design`, `webapp-testing`, `theme-factory`, +9 more |
+
+To add a new external source:
+
+```bash
+codekit sources add https://github.com/org/repo.git   # Register source
+codekit sources pull                                    # Clone repo
+codekit sources sync                                    # Import skills to templates
+bun run build:vfs                                       # Rebuild VFS
+```
+
+Source-synced skills are marked with a `source` field in `templates/skills/index.json` and are automatically updated when re-syncing. Manual (bundled) skills without a `source` field are preserved during sync.
+
 ### Architecture
 
 ```
@@ -526,6 +570,7 @@ src/
 ├── commands/
 │   ├── skills/              # list, add, remove, related
 │   ├── commands/            # list, add, remove
+│   ├── sources/             # list, add, remove, pull, sync
 │   ├── init.ts              # Project initialization
 │   ├── learn.ts             # Project scanning
 │   └── sync.ts              # Multi-platform sync
@@ -533,6 +578,7 @@ src/
 │   ├── resource-manager.ts  # Abstract base
 │   ├── skill-manager.ts     # Skill operations
 │   ├── command-manager.ts   # Command operations
+│   ├── source-manager.ts    # External source operations
 │   └── template-loader.ts   # VFS template resolution
 ├── types/                   # TypeScript interfaces
 └── utils/

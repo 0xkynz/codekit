@@ -34,6 +34,60 @@
       "categoryMapping": {
         "chrome-devtools-mcp": "devtools"
       }
+    },
+    {
+      "name": "apex-os-bad-boy",
+      "url": "https://github.com/fratilanico/apex-os-bad-boy.git",
+      "branch": "main",
+      "skillsDir": ".",
+      "exclude": [],
+      "categoryMapping": {
+        "nextjs-master": "frontend",
+        "nextjs-production-bug-audit": "frontend",
+        "shadcn-master": "frontend",
+        "ui-ux-pro-max": "frontend",
+        "framer-motion-best-practices": "frontend",
+        "supabase-expert": "backend",
+        "docker-best-practices": "devops",
+        "security-best-practices": "devops",
+        "test-driven-development": "testing",
+        "systematic-debugging": "devops",
+        "performance-optimization": "devops",
+        "rag-retrieval-patterns": "ai",
+        "prompt-engineering-apex": "ai",
+        "tool-definition-patterns": "ai",
+        "react-agent-loop": "ai",
+        "dispatching-parallel-agents": "ai",
+        "subagent-driven-development": "ai"
+      }
+    },
+    {
+      "name": "terraform-skill",
+      "url": "https://github.com/antonbabenko/terraform-skill.git",
+      "branch": "main",
+      "skillsDir": ".",
+      "exclude": [],
+      "categoryMapping": {
+        "terraform-skill": "devops"
+      }
+    },
+    {
+      "name": "better-auth-skills",
+      "url": "https://github.com/better-auth/skills.git",
+      "branch": "main",
+      "skillsDir": "better-auth",
+      "exclude": [],
+      "categoryMapping": {},
+      "defaultCategory": "auth"
+    },
+    {
+      "name": "anthropic-skills",
+      "url": "https://github.com/anthropics/skills.git",
+      "branch": "main",
+      "skillsDir": "skills",
+      "exclude": [],
+      "categoryMapping": {},
+      "defaultCategory": "general"
     }
   ]
 }
