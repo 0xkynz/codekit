@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { listCommands } from "./list";
 import { addCommand } from "./add";
 import { removeCommand } from "./remove";
+import { displayHome } from "../../utils/paths";
 
 export function createCommandsCommand(): Command {
   const commands = new Command("commands")
@@ -13,7 +14,7 @@ export function createCommandsCommand(): Command {
     .command("list")
     .alias("ls")
     .description("List available and installed commands")
-    .option("-g, --global", "List from global ~/.claude directory")
+    .option("-g, --global", `List from global ${displayHome()}/.claude directory`)
     .option("-i, --installed", "Show only installed commands")
     .option("-a, --available", "Show only available (not installed) commands")
     .option("--json", "Output as JSON")
@@ -23,7 +24,7 @@ export function createCommandsCommand(): Command {
     .command("add <name>")
     .alias("install")
     .description("Add a command from bundled templates")
-    .option("-g, --global", "Install to global ~/.claude directory")
+    .option("-g, --global", `Install to global ${displayHome()}/.claude directory`)
     .option("-f, --force", "Overwrite if already installed")
     .option("--dry-run", "Show what would be installed without writing")
     .action(addCommand);
@@ -33,7 +34,7 @@ export function createCommandsCommand(): Command {
     .alias("rm")
     .alias("uninstall")
     .description("Remove an installed command")
-    .option("-g, --global", "Remove from global ~/.claude directory")
+    .option("-g, --global", `Remove from global ${displayHome()}/.claude directory`)
     .option("-f, --force", "Skip confirmation")
     .option("--dry-run", "Show what would be removed without deleting")
     .action(removeCommand);

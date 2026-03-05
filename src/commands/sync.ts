@@ -11,6 +11,7 @@ import {
   PLATFORMS,
   type AIPlatform,
 } from "../utils/platform-rules";
+import { getInstalledSkillsInfo } from "../utils/installed-skills";
 
 interface SyncOptions extends GlobalOptions {
   force?: boolean;
@@ -25,7 +26,7 @@ export function createSyncCommand(): Command {
     .option("-f, --force", "Overwrite all existing files without prompting")
     .option("--dry-run", "Show what would be updated without writing")
     .option("-y, --yes", "Accept all defaults without prompting")
-    .option("-p, --platforms <platforms>", "Comma-separated platforms to sync: claude,cursor,gemini")
+    .option("-p, --platforms <platforms>", "Comma-separated platforms to sync: claude,cursor,gemini,agents")
     .action(syncPlatforms);
 }
 
@@ -57,6 +58,7 @@ async function syncPlatforms(options: SyncOptions): Promise<void> {
       claude: false,
       cursor: false,
       gemini: false,
+      agents: false,
     };
 
     for (const platform of ALL_PLATFORMS) {
@@ -105,6 +107,7 @@ async function syncPlatforms(options: SyncOptions): Promise<void> {
     spinner.start("Scanning project...");
 
     const context = await scanProject(rootDir);
+    const installedSkills = await getInstalledSkillsInfo();
 
     spinner.stop("Project scanned");
 
@@ -138,7 +141,7 @@ async function syncPlatforms(options: SyncOptions): Promise<void> {
     }
 
     // Generate and write rules
-    const allRules = generateAllPlatformRules(context);
+    const allRules = generateAllPlatformRules(context, installedSkills);
     let updated = 0;
     let created = 0;
 

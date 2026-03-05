@@ -993,7 +993,7 @@ async function analyzeStructure(rootDir: string): Promise<ProjectStructure> {
         structure.entryPoints.push(entry);
       }
       if (structure.srcDir && await pathExists(join(rootDir, structure.srcDir, entry))) {
-        structure.entryPoints.push(`${structure.srcDir}/${entry}`);
+        structure.entryPoints.push(join(structure.srcDir, entry));
       }
     }
   } catch {

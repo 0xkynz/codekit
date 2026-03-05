@@ -8,6 +8,7 @@
       "category": "document",
       "description": "Extract text and tables from PDF files, fill forms, merge documents",
       "dependencies": [],
+      "relatedSkills": [],
       "tags": [
         "pdf",
         "document",
@@ -21,6 +22,9 @@
       "category": "data",
       "description": "Create charts, graphs, and visualizations from data",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "database-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "charts",
         "visualization",
@@ -34,6 +38,7 @@
       "category": "workflow",
       "description": "Persistent project documentation system that maintains context across sessions with structured Memory Bank files",
       "dependencies": [],
+      "relatedSkills": [],
       "tags": [
         "documentation",
         "context",
@@ -49,6 +54,11 @@
       "category": "backend",
       "description": "Python FastAPI development with uv package manager, modular project structure, SQLAlchemy ORM, and production-ready patterns",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "fastapi", "relationship": "alternative" },
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "python",
         "fastapi",
@@ -66,6 +76,11 @@
       "category": "backend",
       "description": "Python FastAPI expert for async APIs, SQLAlchemy 2.0, Pydantic v2, uv package manager, and production patterns",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "python-fastapi", "relationship": "alternative" },
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "python",
         "fastapi",
@@ -77,6 +92,65 @@
       ]
     },
     {
+      "name": "domain-driven-hexagon",
+      "path": "domain-driven-hexagon",
+      "displayName": "Domain-Driven Hexagon",
+      "category": "architecture",
+      "description": "DDD + Hexagonal Architecture + CQRS for production backend systems — vertical slices, ports & adapters, domain events, Result types, and architecture enforcement",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "clean-architecture-ddd", "relationship": "complementary" },
+        { "name": "elysiajs-ddd", "relationship": "complementary" },
+        { "name": "elysiajs-ddd-mongoose", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "database-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "ddd",
+        "hexagonal",
+        "ports-adapters",
+        "cqrs",
+        "domain-driven-design",
+        "clean-architecture",
+        "vertical-slices",
+        "domain-events",
+        "result-type",
+        "architecture",
+        "backend"
+      ]
+    },
+    {
+      "name": "clean-architecture-ddd",
+      "path": "clean-architecture-ddd",
+      "displayName": "Clean Architecture + DDD",
+      "category": "architecture",
+      "description": "Domain-Driven Design with Clean Architecture — framework-agnostic patterns for entities, value objects, aggregates, use cases, and the dependency rule. Use when designing domain models, structuring layered architectures, or separating business logic from infrastructure.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "domain-driven-hexagon", "relationship": "complementary" },
+        { "name": "elysiajs-ddd", "relationship": "complementary" },
+        { "name": "elysiajs-ddd-mongoose", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "database-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "ddd",
+        "clean-architecture",
+        "domain-driven-design",
+        "entities",
+        "value-objects",
+        "aggregates",
+        "use-cases",
+        "dependency-rule",
+        "hexagonal",
+        "ports-adapters",
+        "architecture",
+        "backend"
+      ]
+    },
+    {
       "name": "elysiajs-ddd",
       "path": "elysiajs-ddd",
       "displayName": "ElysiaJS DDD Expert",
@@ -84,6 +158,12 @@
       "description": "ElysiaJS with Domain-Driven Design, Prisma ORM, Better Auth, and Bun runtime for scalable TypeScript APIs",
       "dependencies": [
         "typescript-expert"
+      ],
+      "relatedSkills": [
+        { "name": "elysiajs-ddd-mongoose", "relationship": "alternative" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
       ],
       "tags": [
         "elysiajs",
@@ -106,6 +186,12 @@
       "dependencies": [
         "typescript-expert"
       ],
+      "relatedSkills": [
+        { "name": "elysiajs-ddd", "relationship": "alternative" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "elysiajs",
         "bun",
@@ -127,6 +213,10 @@
       "category": "database",
       "description": "Database performance optimization, schema design, query optimization across PostgreSQL, MySQL, MongoDB",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "pgvector", "relationship": "complementary" },
+        { "name": "zvec", "relationship": "complementary" }
+      ],
       "tags": [
         "database",
         "sql",
@@ -141,6 +231,12 @@
       "category": "typescript",
       "description": "TypeScript language expert for type system, generics, module resolution, and compiler configuration",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "enhances" },
+        { "name": "nextjs", "relationship": "enhances" },
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "typescript",
         "types",
@@ -154,6 +250,12 @@
       "category": "testing",
       "description": "Testing strategies, Jest/Vitest configuration, mocking patterns, and test architecture",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "enhances" },
+        { "name": "nextjs", "relationship": "enhances" },
+        { "name": "typescript-expert", "relationship": "complementary" },
+        { "name": "linting-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "testing",
         "jest",
@@ -168,6 +270,10 @@
       "category": "git",
       "description": "Git workflow expert for merge conflicts, branching strategies, history rewriting, and repository management",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "github", "relationship": "complementary" },
+        { "name": "github-actions", "relationship": "complementary" }
+      ],
       "tags": [
         "git",
         "version-control",
@@ -181,6 +287,17 @@
       "category": "frontend",
       "description": "React development with Vite, TypeScript, shadcn/ui, TanStack (Query, Table, Router), forms, and state management. For SPAs and client-side apps.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "nextjs", "relationship": "alternative" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "testing-expert", "relationship": "enhances" },
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "vercel-react-best-practices", "relationship": "complementary" },
+        { "name": "vercel-composition-patterns", "relationship": "complementary" },
+        { "name": "web-design-guidelines", "relationship": "complementary" },
+        { "name": "chrome-devtools", "relationship": "complementary" },
+        { "name": "framer-motion", "relationship": "complementary" }
+      ],
       "tags": [
         "react",
         "vite",
@@ -198,6 +315,17 @@
       "category": "frontend",
       "description": "Next.js 15 with App Router, Server Components, Server Actions, TypeScript, and full-stack patterns. For SSR/SSG and full-stack apps.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "alternative" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "testing-expert", "relationship": "enhances" },
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "vercel-react-best-practices", "relationship": "complementary" },
+        { "name": "vercel-composition-patterns", "relationship": "complementary" },
+        { "name": "web-design-guidelines", "relationship": "complementary" },
+        { "name": "chrome-devtools", "relationship": "complementary" },
+        { "name": "framer-motion", "relationship": "complementary" }
+      ],
       "tags": [
         "nextjs",
         "react",
@@ -216,6 +344,13 @@
       "category": "frontend",
       "description": "Modern UI/UX design systems, visual styles (glassmorphism, neumorphism, brutalism, etc.), accessibility patterns, and CSS implementation",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "web-design-guidelines", "relationship": "complementary" },
+        { "name": "figma-make-website-builder", "relationship": "complementary" },
+        { "name": "react", "relationship": "complementary" },
+        { "name": "nextjs", "relationship": "complementary" },
+        { "name": "framer-motion", "relationship": "complementary" }
+      ],
       "tags": [
         "ui",
         "ux",
@@ -228,12 +363,37 @@
       ]
     },
     {
+      "name": "eslint-fix",
+      "path": "eslint-fix",
+      "displayName": "ESLint Fixer",
+      "category": "code-quality",
+      "description": "Analyze and fix ESLint errors across the project. Structured workflow with diagnostic triage, iterative verification, and parallel fixing for large codebases.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "eslint",
+        "linting",
+        "code-quality",
+        "fix",
+        "autofix",
+        "style"
+      ]
+    },
+    {
       "name": "linting-expert",
       "path": "linting-expert",
       "displayName": "Linting Expert",
       "category": "code-quality",
       "description": "Code linting, formatting, static analysis, and coding standards enforcement across multiple languages and tools",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "typescript-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "eslint",
         "prettier",
@@ -250,6 +410,10 @@
       "category": "devops",
       "description": "Expert in building npm package CLIs with Unix philosophy, argument parsing, interactive modes, and CLI library ecosystems",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "cli",
         "npm",
@@ -267,6 +431,14 @@
       "category": "mobile",
       "description": "React Native CLI bare workflow, native modules, TypeScript, and platform-specific code for apps requiring native customization",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react-native-expo", "relationship": "alternative" },
+        { "name": "react-native-best-practices", "relationship": "enhances" },
+        { "name": "vercel-react-native-skills", "relationship": "enhances" },
+        { "name": "mobile-app-distribution", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "react-native",
         "mobile",
@@ -283,6 +455,14 @@
       "category": "mobile",
       "description": "React Native + Expo managed workflow, Expo Router, TypeScript, and mobile best practices for rapid mobile development",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react-native", "relationship": "alternative" },
+        { "name": "react-native-best-practices", "relationship": "enhances" },
+        { "name": "vercel-react-native-skills", "relationship": "enhances" },
+        { "name": "mobile-app-distribution", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
       "tags": [
         "react-native",
         "expo",
@@ -300,6 +480,12 @@
       "category": "mobile",
       "description": "Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react-native", "relationship": "enhances" },
+        { "name": "react-native-expo", "relationship": "enhances" },
+        { "name": "vercel-react-native-skills", "relationship": "complementary" },
+        { "name": "mobile-app-distribution", "relationship": "complementary" }
+      ],
       "tags": [
         "react-native",
         "expo",
@@ -316,6 +502,10 @@
       "category": "workflow",
       "description": "GitHub patterns using gh CLI for pull requests, stacked PRs, code review, branching strategies, and repository automation. Use when working with GitHub PRs, merging strategies, or repository management tasks.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "git-expert", "relationship": "complementary" },
+        { "name": "github-actions", "relationship": "complementary" }
+      ],
       "tags": [
         "github",
         "gh-cli",
@@ -333,6 +523,12 @@
       "category": "frontend",
       "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\".",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "figma-make-website-builder", "relationship": "complementary" },
+        { "name": "react", "relationship": "complementary" },
+        { "name": "nextjs", "relationship": "complementary" }
+      ],
       "source": "vercel-agent-skills"
     },
     {
@@ -342,6 +538,11 @@
       "category": "frontend",
       "description": "React composition patterns that scale. Use when refactoring components with boolean prop proliferation, building flexible component libraries, or designing reusable APIs. Triggers on tasks involving compound components, render props, context providers, or component architecture. Includes React 19 API changes.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "enhances" },
+        { "name": "nextjs", "relationship": "enhances" },
+        { "name": "vercel-react-best-practices", "relationship": "complementary" }
+      ],
       "source": "vercel-agent-skills"
     },
     {
@@ -351,6 +552,11 @@
       "category": "frontend",
       "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "enhances" },
+        { "name": "nextjs", "relationship": "enhances" },
+        { "name": "vercel-composition-patterns", "relationship": "complementary" }
+      ],
       "source": "vercel-agent-skills"
     },
     {
@@ -360,6 +566,12 @@
       "category": "mobile",
       "description": "React Native and Expo best practices for building performant mobile apps. Use when building React Native components, optimizing list performance, implementing animations, or working with native modules. Triggers on tasks involving React Native, Expo, mobile performance, or native platform APIs.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react-native", "relationship": "enhances" },
+        { "name": "react-native-expo", "relationship": "enhances" },
+        { "name": "react-native-best-practices", "relationship": "complementary" },
+        { "name": "mobile-app-distribution", "relationship": "complementary" }
+      ],
       "source": "vercel-agent-skills"
     },
     {
@@ -369,6 +581,10 @@
       "category": "workflow",
       "description": "Structured 9-phase workflow for building production-ready websites using Claude (architecture, logic, reasoning) paired with Figma Make (UI, interactions, deployment). Covers architecture, design systems, content, component logic, prompt engineering, animation, responsive design, data integration, and QA.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "web-design-guidelines", "relationship": "complementary" }
+      ],
       "tags": [
         "figma",
         "figma-make",
@@ -388,6 +604,10 @@
       "category": "database",
       "description": "Zvec vector database development — collection management, vector similarity search, schema design, embedding functions, indexing strategies (Flat, HNSW, IVF), and query optimization",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "pgvector", "relationship": "complementary" }
+      ],
       "tags": [
         "zvec",
         "vector-database",
@@ -407,6 +627,10 @@
       "category": "database",
       "description": "pgvector — open-source vector similarity search for Postgres. HNSW and IVFFlat indexing, half-precision/binary/sparse vectors, filtering, hybrid search, and performance tuning",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "zvec", "relationship": "complementary" }
+      ],
       "tags": [
         "pgvector",
         "postgres",
@@ -427,6 +651,10 @@
       "category": "devops",
       "description": "Chrome DevTools via MCP for browser automation, debugging, performance analysis, network inspection, and accessibility testing. Use when debugging web pages, automating browser interactions, analyzing performance, or auditing accessibility.",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "complementary" },
+        { "name": "nextjs", "relationship": "complementary" }
+      ],
       "tags": [
         "chrome",
         "devtools",
@@ -448,6 +676,10 @@
       "category": "devops",
       "description": "GitHub Actions CI/CD best practices — workflow structure, security, caching, matrix strategies, testing, deployment strategies, rollback, and troubleshooting",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "git-expert", "relationship": "complementary" },
+        { "name": "github", "relationship": "complementary" }
+      ],
       "tags": [
         "github-actions",
         "ci-cd",
@@ -467,6 +699,11 @@
       "category": "mobile",
       "description": "Mobile app distribution for iOS App Store and Google Play Store — React Native signing, building, publishing, Apple review guidelines, and pre-submission checklists",
       "dependencies": [],
+      "relatedSkills": [
+        { "name": "react-native", "relationship": "complementary" },
+        { "name": "react-native-expo", "relationship": "complementary" },
+        { "name": "react-native-best-practices", "relationship": "complementary" }
+      ],
       "tags": [
         "mobile",
         "app-store",
@@ -478,6 +715,372 @@
         "distribution",
         "publishing",
         "review-guidelines"
+      ]
+    },
+    {
+      "name": "cook",
+      "path": "cook",
+      "displayName": "Cook Workflow",
+      "category": "workflow",
+      "description": "Auto-generated workflow orchestration. The setup skill generates this based on detected project type with project-specific phases, checklists, and memory-bank integration.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "complementary" },
+        { "name": "cook-frontend", "relationship": "complementary" },
+        { "name": "cook-mobile", "relationship": "complementary" },
+        { "name": "cook-fullstack", "relationship": "complementary" },
+        { "name": "cook-cli", "relationship": "complementary" },
+        { "name": "cook-library", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "cook", "auto-generated", "plan", "review", "test"]
+    },
+    {
+      "name": "cook-backend",
+      "path": "cook-backend",
+      "displayName": "Cook Backend",
+      "category": "workflow",
+      "description": "Workflow orchestration for backend projects — Plan, Code, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-frontend", "relationship": "alternative" },
+        { "name": "cook-mobile", "relationship": "alternative" },
+        { "name": "cook-fullstack", "relationship": "alternative" },
+        { "name": "cook-cli", "relationship": "alternative" },
+        { "name": "cook-library", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "backend", "plan", "code", "review", "test"]
+    },
+    {
+      "name": "cook-frontend",
+      "path": "cook-frontend",
+      "displayName": "Cook Frontend",
+      "category": "workflow",
+      "description": "Workflow orchestration for frontend projects — Plan, Design, Code, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "alternative" },
+        { "name": "cook-mobile", "relationship": "alternative" },
+        { "name": "cook-fullstack", "relationship": "alternative" },
+        { "name": "cook-cli", "relationship": "alternative" },
+        { "name": "cook-library", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "shadcn-ui", "relationship": "complementary" },
+        { "name": "framer-motion", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "frontend", "plan", "design", "code", "review", "test"]
+    },
+    {
+      "name": "cook-mobile",
+      "path": "cook-mobile",
+      "displayName": "Cook Mobile",
+      "category": "workflow",
+      "description": "Workflow orchestration for mobile projects — Plan, Design, Code, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "alternative" },
+        { "name": "cook-frontend", "relationship": "alternative" },
+        { "name": "cook-fullstack", "relationship": "alternative" },
+        { "name": "cook-cli", "relationship": "alternative" },
+        { "name": "cook-library", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "react-native-best-practices", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "mobile", "plan", "design", "code", "review", "test"]
+    },
+    {
+      "name": "cook-fullstack",
+      "path": "cook-fullstack",
+      "displayName": "Cook Fullstack",
+      "category": "workflow",
+      "description": "Workflow orchestration for fullstack projects — Plan, Design, Code API, Code UI, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "alternative" },
+        { "name": "cook-frontend", "relationship": "alternative" },
+        { "name": "cook-mobile", "relationship": "alternative" },
+        { "name": "cook-cli", "relationship": "alternative" },
+        { "name": "cook-library", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "fullstack", "plan", "design", "code", "review", "test"]
+    },
+    {
+      "name": "cook-cli",
+      "path": "cook-cli",
+      "displayName": "Cook CLI",
+      "category": "workflow",
+      "description": "Workflow orchestration for CLI projects — Plan, Code, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "alternative" },
+        { "name": "cook-frontend", "relationship": "alternative" },
+        { "name": "cook-mobile", "relationship": "alternative" },
+        { "name": "cook-fullstack", "relationship": "alternative" },
+        { "name": "cook-library", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "cli-expert", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "cli", "plan", "code", "review", "test"]
+    },
+    {
+      "name": "cook-library",
+      "path": "cook-library",
+      "displayName": "Cook Library",
+      "category": "workflow",
+      "description": "Workflow orchestration for library projects — Plan, Design, Code, Review, Test — with memory-bank session continuity.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "cook-backend", "relationship": "alternative" },
+        { "name": "cook-frontend", "relationship": "alternative" },
+        { "name": "cook-mobile", "relationship": "alternative" },
+        { "name": "cook-fullstack", "relationship": "alternative" },
+        { "name": "cook-cli", "relationship": "alternative" },
+        { "name": "testing-expert", "relationship": "complementary" },
+        { "name": "linting-expert", "relationship": "complementary" },
+        { "name": "memory-bank", "relationship": "complementary" }
+      ],
+      "tags": ["workflow", "orchestration", "library", "plan", "design", "code", "review", "test"]
+    },
+    {
+      "name": "better-auth",
+      "path": "better-auth",
+      "displayName": "Better Auth",
+      "category": "auth",
+      "description": "Better Auth integration expert for TypeScript authentication — server config, client setup, database adapters, OAuth providers, plugins (2FA, organizations), session management, and security hardening. Use when adding auth, configuring Better Auth, implementing login/signup, setting up OAuth, enabling 2FA, or securing auth endpoints.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "typescript-expert", "relationship": "enhances" },
+        { "name": "nextjs", "relationship": "complementary" },
+        { "name": "react", "relationship": "complementary" },
+        { "name": "database-expert", "relationship": "complementary" },
+        { "name": "testing-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "auth",
+        "authentication",
+        "better-auth",
+        "oauth",
+        "2fa",
+        "sessions",
+        "typescript",
+        "security",
+        "login",
+        "signup",
+        "organization",
+        "rbac",
+        "passkey",
+        "social-login"
+      ]
+    },
+    {
+      "name": "skill-creator",
+      "path": "skill-creator",
+      "displayName": "Skill Creator",
+      "category": "workflow",
+      "description": "Guide for creating effective skills that extend Claude's capabilities with specialized knowledge, workflows, or tool integrations. Use when creating a new skill or updating an existing one.",
+      "dependencies": [],
+      "relatedSkills": [],
+      "tags": [
+        "skill",
+        "creator",
+        "template",
+        "workflow",
+        "authoring",
+        "meta"
+      ]
+    },
+    {
+      "name": "agents",
+      "path": "agents",
+      "displayName": "Agents.md",
+      "category": "workflow",
+      "description": "Guide for AGENTS.md — the open standard for universal AI coding agent configuration. Use when creating, updating, or onboarding projects to multi-agent workflows.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "memory-bank", "relationship": "complementary" },
+        { "name": "setup", "relationship": "complementary" },
+        { "name": "git-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "agents",
+        "agents-md",
+        "universal",
+        "multi-agent",
+        "configuration",
+        "workflow",
+        "standard"
+      ]
+    },
+    {
+      "name": "slidev",
+      "path": "slidev",
+      "displayName": "Slidev Presentations",
+      "category": "frontend",
+      "description": "Slidev presentation framework — Markdown-based developer slides with Vue 3, Vite, UnoCSS, click animations, code highlighting, Monaco editor, Shiki Magic Move, LaTeX, Mermaid diagrams, themes, and export to PDF/PPTX/PNG",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "typescript-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "slidev",
+        "slides",
+        "presentation",
+        "markdown",
+        "vue",
+        "vite",
+        "unocss",
+        "shiki",
+        "monaco",
+        "latex",
+        "mermaid",
+        "animations",
+        "pdf-export"
+      ]
+    },
+    {
+      "name": "data-analysis",
+      "path": "data-analysis",
+      "displayName": "Data Analysis",
+      "category": "data",
+      "description": "Expert guidance for data analysis, data science, and machine learning projects. Covers Python data tools, SQL/databases, visualization, statistics, ML/AI, data engineering, and MLOps.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "data-visualization", "relationship": "complementary" },
+        { "name": "database-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "data-analysis",
+        "data-science",
+        "python",
+        "pandas",
+        "sql",
+        "visualization",
+        "statistics",
+        "machine-learning",
+        "deep-learning",
+        "mlops",
+        "data-engineering",
+        "nlp",
+        "time-series"
+      ]
+    },
+    {
+      "name": "setup",
+      "path": "setup",
+      "displayName": "Project Setup",
+      "category": "workflow",
+      "description": "Auto-detect project tech stack and install matching codekit skills. Use when setting up a new project, onboarding to an existing codebase, or when asked to detect and install compatible skills.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "memory-bank", "relationship": "complementary" },
+        { "name": "agents", "relationship": "complementary" },
+        { "name": "cook-backend", "relationship": "complementary" },
+        { "name": "cook-frontend", "relationship": "complementary" },
+        { "name": "cook-mobile", "relationship": "complementary" },
+        { "name": "cook-fullstack", "relationship": "complementary" },
+        { "name": "cook-cli", "relationship": "complementary" },
+        { "name": "cook-library", "relationship": "complementary" },
+        { "name": "skill-creator", "relationship": "complementary" }
+      ],
+      "tags": [
+        "setup",
+        "auto-detect",
+        "onboarding",
+        "project",
+        "workflow",
+        "install"
+      ]
+    },
+    {
+      "name": "framer-motion",
+      "path": "framer-motion",
+      "displayName": "Framer Motion Best Practices",
+      "category": "frontend",
+      "description": "Framer Motion performance optimization — 42 rules across bundle optimization, re-render prevention, layout animations, scroll effects, gestures, springs, SVG, and exit animations",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "complementary" },
+        { "name": "nextjs", "relationship": "complementary" },
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "vercel-react-best-practices", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "enhances" }
+      ],
+      "tags": [
+        "framer-motion",
+        "animation",
+        "react",
+        "motion",
+        "gestures",
+        "layout",
+        "scroll",
+        "svg",
+        "performance",
+        "frontend"
+      ]
+    },
+    {
+      "name": "shadcn-ui",
+      "path": "shadcn-ui",
+      "displayName": "shadcn/ui",
+      "category": "frontend",
+      "description": "Efficiently add, configure, and use shadcn/ui components. Use this skill when the user wants to add UI components, fix styling, or needs the list of available shadcn components.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "react", "relationship": "complementary" },
+        { "name": "nextjs", "relationship": "complementary" },
+        { "name": "uiux-design-expert", "relationship": "complementary" },
+        { "name": "typescript-expert", "relationship": "enhances" }
+      ],
+      "tags": [
+        "shadcn",
+        "ui",
+        "components",
+        "radix",
+        "tailwind",
+        "react",
+        "frontend",
+        "design-system"
+      ]
+    },
+    {
+      "name": "terraform",
+      "path": "terraform",
+      "displayName": "Terraform & OpenTofu",
+      "category": "devops",
+      "description": "Comprehensive Terraform and OpenTofu guidance — module development, testing strategies (native tests, Terratest), CI/CD pipelines, security scanning (trivy, checkov), state management, and production-ready infrastructure-as-code patterns. Use when creating modules, writing IaC tests, reviewing configurations, or making infrastructure architecture decisions.",
+      "dependencies": [],
+      "relatedSkills": [
+        { "name": "github-actions", "relationship": "complementary" },
+        { "name": "git-expert", "relationship": "complementary" }
+      ],
+      "tags": [
+        "terraform",
+        "opentofu",
+        "iac",
+        "infrastructure-as-code",
+        "hcl",
+        "modules",
+        "testing",
+        "terratest",
+        "ci-cd",
+        "security",
+        "trivy",
+        "checkov",
+        "aws",
+        "devops",
+        "cloud"
       ]
     }
   ]

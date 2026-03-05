@@ -1,6 +1,7 @@
 import type { ListOptions, Skill } from "../../types";
 import { skillManager } from "../../core/skill-manager";
 import { logger, style, outputJson } from "../../utils/logger";
+import { displayHome } from "../../utils/paths";
 
 interface SkillListOptions extends ListOptions {
   installed?: boolean;
@@ -69,7 +70,7 @@ export async function listSkills(options: SkillListOptions): Promise<void> {
     }
 
     if (global.length > 0) {
-      logger.section("🌐 Global Skills (~/.claude/skills/)");
+      logger.section(`🌐 Global Skills (${displayHome()}/.claude/skills/)`);
       for (const skill of global) {
         const name = style.skill(skill.frontmatter.name);
         const files = skill.files.length > 0

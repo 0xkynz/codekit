@@ -1,6 +1,7 @@
 import type { ListOptions, Command as CmdType } from "../../types";
 import { commandManager } from "../../core/command-manager";
 import { logger, style, outputJson } from "../../utils/logger";
+import { displayHome } from "../../utils/paths";
 
 interface CommandListOptions extends ListOptions {
   installed?: boolean;
@@ -95,7 +96,7 @@ export async function listCommands(options: CommandListOptions): Promise<void> {
     }
 
     if (global.length > 0) {
-      logger.section("🌐 Global Commands (~/.claude/commands/)");
+      logger.section(`🌐 Global Commands (${displayHome()}/.claude/commands/)`);
       for (const cmd of global) {
         const name = commandManager["getResourceName"](cmd);
         const slashCmd = style.command(`/${name}`);

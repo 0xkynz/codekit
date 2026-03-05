@@ -2,6 +2,8 @@ import { Command } from "commander";
 import { listSkills } from "./list";
 import { addSkill } from "./add";
 import { removeSkill } from "./remove";
+import { relatedSkills } from "./related";
+import { displayHome } from "../../utils/paths";
 
 export function createSkillsCommand(): Command {
   const skills = new Command("skills")
@@ -12,7 +14,7 @@ export function createSkillsCommand(): Command {
     .command("list")
     .alias("ls")
     .description("List available and installed skills")
-    .option("-g, --global", "List from global ~/.claude directory")
+    .option("-g, --global", `List from global ${displayHome()}/.claude directory`)
     .option("-i, --installed", "Show only installed skills")
     .option("-a, --available", "Show only available (not installed) skills")
     .option("--json", "Output as JSON")
@@ -22,7 +24,7 @@ export function createSkillsCommand(): Command {
     .command("add <name>")
     .alias("install")
     .description("Add a skill from bundled templates")
-    .option("-g, --global", "Install to global ~/.claude directory")
+    .option("-g, --global", `Install to global ${displayHome()}/.claude directory`)
     .option("-f, --force", "Overwrite if already installed")
     .option("--dry-run", "Show what would be installed without writing")
     .action(addSkill);
@@ -32,10 +34,18 @@ export function createSkillsCommand(): Command {
     .alias("rm")
     .alias("uninstall")
     .description("Remove an installed skill")
-    .option("-g, --global", "Remove from global ~/.claude directory")
+    .option("-g, --global", `Remove from global ${displayHome()}/.claude directory`)
     .option("-f, --force", "Skip confirmation")
     .option("--dry-run", "Show what would be removed without deleting")
     .action(removeSkill);
+
+  skills
+    .command("related <name>")
+    .alias("deps")
+    .description("Show related and dependent skills for a given skill")
+    .option("-g, --global", `Check global ${displayHome()}/.claude directory`)
+    .option("--json", "Output as JSON")
+    .action(relatedSkills);
 
   return skills;
 }

@@ -44,14 +44,14 @@ export class CommandManager extends ResourceManager<Command> {
     // e.g., "validate-and-fix.md" -> "validate-and-fix"
     const path = resource.filePath.replace(/\.md$/, "");
 
-    // Find the commands directory in the path
-    const commandsIndex = path.lastIndexOf("/commands/");
-    if (commandsIndex !== -1) {
-      return path.slice(commandsIndex + "/commands/".length);
+    // Find the commands directory in the path (handle both / and \ separators)
+    const commandsMatch = path.match(/[/\\]commands[/\\]/);
+    if (commandsMatch && commandsMatch.index !== undefined) {
+      return path.slice(commandsMatch.index + commandsMatch[0].length);
     }
 
     // Fallback: just use the filename parts
-    return path.split("/").filter((p) => p && p !== "commands").pop() || path;
+    return path.split(/[/\\]/).filter((p) => p && p !== "commands").pop() || path;
   }
 
   protected getResourcePath(resource: Command): string {

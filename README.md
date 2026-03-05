@@ -2,156 +2,374 @@
 
 ![codekit banner](docs/assets/codekit_banner.png)
 
-> **AI Configuration Manager** - Bridge the gap between domain expertise and AI agents.
+> **Give your AI the skills it actually needs.** One CLI. 49 expert skills. Every AI platform.
 
-## Overview
+---
 
-codekit is a CLI tool designed to help you strictly manage AI assistant configurations across **Claude Code**, **Cursor**, and **Gemini CLI**. It solves the problem of "drift" where AI rules, context, and instructions become scattered or outdated.
+Stop copy-pasting prompts. Stop losing context between sessions. Stop configuring each AI tool separately.
 
-With codekit, you define your **Skills** (capabilities) and **Commands** (workflows) once, and synchronization ensures every AI tool you use respects the same boundaries and knowledge.
+**codekit** turns your AI assistant into a domain expert that knows your stack, remembers your decisions, and follows your team's conventions — across Claude Code, Cursor, and Gemini CLI — from a single source of truth.
 
-### Why codekit?
+## The Problem
 
-- **Unified Intelligence**: Write rules once, deploy to logic for Claude, Cursor, and Gemini.
-- **Project Memory/Context**: Automatically maintain a `memory-bank/` that persists project context across sessions.
-- **Progressive Skills**: Install powerful capabilities (like PDF processing or Data Viz) that load only when needed, saving context window.
-- **Instant Onboarding**: `codekit learn` scans your project and generates a perfect starting configuration in seconds.
+You're using AI coding assistants, but:
 
-## Supported AI Assistants
+- Every new session starts from zero — your AI forgets everything
+- Claude, Cursor, and Gemini each need their own config files maintained separately
+- Your AI doesn't know your architecture, your patterns, or your conventions
+- Installing "context" means pasting massive prompts that eat your token budget
+- There's no structure to how your AI approaches tasks — it just wings it
 
-| Platform | Config File | Description |
-|----------|-------------|-------------|
-| **Claude Code** | `CLAUDE.md` | Anthropic Claude Code CLI |
-| **Cursor** | `.cursorrules` | Cursor AI IDE |
-| **Gemini CLI** | `GEMINI.md` | Google Gemini CLI (Antigravity) |
-
-## Installation
-
-### From Source (Development)
+## The Solution
 
 ```bash
-# Clone and install dependencies
-cd codekit
-bun install
-
-# Run in development mode
-bun run dev -- <command>
-
-# Or link globally for development
-bun link
+codekit init          # Set up your project
+codekit learn --all   # AI scans your codebase and generates rules for every platform
 ```
 
-### Compiled Binary
+That's it. Your AI now understands your project.
+
+Then tell your AI: **"setup skills for this project"** — it auto-detects your stack and installs exactly the right skills:
+
+```
+Detected: TypeScript, Next.js 15, Prisma, TanStack Query, Vitest, ESLint
+Project type: Fullstack
+
+Skills to install (14):
+  Always:    memory-bank, agents, git-expert
+  Auto-gen:  cook (customized for fullstack — Next.js + Prisma)
+  Framework: nextjs, typescript-expert
+  Frontend:  uiux-design-expert, vercel-react-best-practices, vercel-composition-patterns,
+             framer-motion, shadcn-ui, chrome-devtools
+  Database:  database-expert
+  Tooling:   testing-expert, linting-expert
+
+Proceed? (Y/n)
+```
+
+One command. Zero configuration. Your AI now has expert-level knowledge of every technology in your stack.
+
+---
+
+## What Makes codekit Different
+
+### The Setup Skill — Zero-Config Onboarding
+
+The `setup` skill is codekit's brain. It scans your project files — `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, and 10+ other ecosystems — to identify your exact stack, then maps each technology to the right expert skills.
+
+**What it detects:**
+
+| Layer | Signals |
+|-------|---------|
+| **Language** | TypeScript, Python, Go, Rust, Ruby, PHP, .NET, Java/Kotlin, Swift, Elixir, C/C++ |
+| **Framework** | Next.js, React, Vue, Svelte, NestJS, ElysiaJS, FastAPI, Expo, React Native |
+| **Database** | Prisma, Drizzle, TypeORM, SQLAlchemy, Mongoose, pgvector |
+| **Tooling** | ESLint, Prettier, Jest, Vitest, pytest, ruff, GitHub Actions |
+| **Project Type** | Backend, Frontend, Mobile, Fullstack, CLI, Library |
+
+**What it does:**
+
+1. **Detect** — Scans project root for config files and dependencies
+2. **Match** — Maps detected technologies to codekit skills using lookup tables
+3. **Confirm** — Shows you the proposed skill set before installing
+4. **Install** — Runs `codekit skills add` for each match
+5. **Generate** — Creates a custom `cook` workflow tailored to your actual frameworks and commands
+6. **Sync** — Regenerates platform rules (`CLAUDE.md`, `.cursorrules`, `GEMINI.md`) with installed skills
+
+The setup skill also suggests related skills from the mesh network that you might want — so you discover capabilities you didn't know existed.
+
+### Skill Mesh Network
+
+Skills aren't isolated — they form a **connected graph** of 49 skills and 150+ relationships. Every skill declares what it enhances, what complements it, and what it's an alternative to.
+
+Three relationship types:
+
+| Type | Meaning | Example |
+|------|---------|---------|
+| **enhances** | Makes another skill more effective | `typescript-expert` enhances `react` |
+| **complementary** | Works well alongside | `framer-motion` + `uiux-design-expert` |
+| **alternative** | Use one or the other | `react` vs `nextjs` |
+
+The mesh is **bidirectional** — if `typescript-expert` enhances `react`, then `react` shows `typescript-expert` as a related skill too.
 
 ```bash
-# Build the binary
-bun run build
+codekit skills related react
 
-# The binary will be at dist/codekit-<platform>-<arch>
-./dist/codekit-darwin-arm64 --version
+# Enhances:
+#   TypeScript Expert (typescript-expert)
+#   Testing Expert (testing-expert)
+# Complementary:
+#   UI/UX Design Expert (uiux-design-expert)
+#   Framer Motion (framer-motion)
+#   shadcn/ui (shadcn-ui)
+#   Vercel React Best Practices (vercel-react-best-practices)
+#   Vercel Composition Patterns (vercel-composition-patterns)
+#   Chrome DevTools MCP (chrome-devtools)
+# Alternatives:
+#   Next.js Expert (nextjs)
 ```
 
-**Supported platforms:**
-- macOS (darwin-arm64, darwin-x64)
-- Linux (linux-arm64, linux-x64)
-- Windows (windows-x64)
+When you install a skill, codekit surfaces its neighbors so you can build a complete toolkit. The setup skill uses the mesh to suggest related skills you might want after auto-detection.
+
+See the full graph: [`docs/skill-graph.md`](docs/skill-graph.md)
+
+### Progressive Disclosure — Zero Token Waste
+
+50+ skills installed. Only the ones you need get loaded:
+
+```
+Level 1: Metadata     ->  Level 2: Instructions  ->  Level 3: Resources
+ (~100 tokens/skill)       (~2K tokens on use)         (Unlimited, as needed)
+```
+
+Install everything. Pay for nothing until you use it.
+
+### Adaptive Cook Workflows
+
+Not a generic "plan and build" prompt. **Six project-specific workflows** that match how you actually work:
+
+| Project | Workflow | Cook Skill |
+|---------|----------|------------|
+| **Backend** (NestJS, ElysiaJS, FastAPI) | Plan → Code → Review → Test | `cook-backend` |
+| **Frontend** (React, Vue, Svelte) | Plan → Design → Code → Review → Test | `cook-frontend` |
+| **Mobile** (React Native, Expo) | Plan → Design → Code → Review → Test | `cook-mobile` |
+| **Fullstack** (Next.js, Nuxt, SvelteKit) | Plan → Design → Code API → Code UI → Review → Test | `cook-fullstack` |
+| **CLI** (Commander, Yargs) | Plan → Code → Review → Test | `cook-cli` |
+| **Library** (npm packages) | Plan → Design → Code → Review → Test | `cook-library` |
+
+The **setup** skill auto-detects your project type and installs the right workflow. Backend API? You get `cook-backend`. Next.js app? You get `cook-fullstack`. No configuration needed.
+
+### Memory Bank — Your AI Never Forgets
+
+Every Cook workflow reads `memory-bank/` at session start and updates it when done:
+
+```
+memory-bank/
+├── projectbrief.md    # What you're building and why
+├── productContext.md   # Problem and solution context
+├── techContext.md      # Stack, dependencies, setup
+├── systemPatterns.md   # Architecture decisions
+├── activeContext.md    # What's in progress right now
+└── progress.md         # What's done, what's blocked
+```
+
+Session 1: Build the auth system. Session 47: Your AI still knows the auth system exists, what patterns you chose, and what's left to do.
+
+### Multi-Platform Sync
+
+Write once, deploy everywhere:
+
+| Platform | Config File | Status |
+|----------|-------------|--------|
+| **AGENTS.md** | `AGENTS.md` | Full support — universal standard, works with 25+ AI agents |
+| **Claude Code** | `CLAUDE.md` | Full support |
+| **Cursor** | `.cursorrules` | Full support |
+| **Gemini CLI** | `GEMINI.md` | Full support |
+
+```bash
+codekit learn --all   # Generate AGENTS.md + CLAUDE.md + .cursorrules + GEMINI.md
+codekit sync          # Regenerate all platform configs from current project state
+```
+
+**AGENTS.md** is the [open standard](https://agents.md) adopted by 60,000+ repos. It works with any AI agent — Claude, Copilot, Cursor, Devin, Windsurf, Cline, Aider, and more. codekit generates it alongside platform-specific files so you're covered everywhere.
+
+---
 
 ## Quick Start
 
+### 1. Initialize
+
 ```bash
-# Scan project and generate rules for all AI assistants
-codekit learn --all
-
-# Or generate for specific platforms
-codekit learn -p claude,cursor
-
-# Interactive mode - choose platforms
-codekit learn
-
-# Sync rules across all platforms (regenerate from current project state)
-codekit sync
-
-# Initialize a new Claude project
 codekit init
+```
 
-# List all available skills
-codekit skills list
+Interactive setup — pick your skills and commands. The **setup** skill is pre-selected and will auto-detect your stack.
 
-# Install a skill
+### 2. Learn Your Project
+
+```bash
+codekit learn --all
+```
+
+Scans your codebase: languages, frameworks, dependencies, project structure, scripts. Generates `CLAUDE.md`, `.cursorrules`, `GEMINI.md`, and `memory-bank/` in seconds.
+
+### 3. Setup Skills
+
+```bash
+# Tell your AI: "setup skills for this project"
+# The setup skill auto-detects your stack and installs matching skills
+
+# Or install manually
 codekit skills add typescript-expert
-
-# Install to global ~/.claude directory
-codekit skills add react --global
+codekit skills add cook-backend
+codekit skills related typescript-expert   # Discover related skills
 ```
 
-## Core Concepts
+The setup skill handles everything — detection, matching, installation, cook workflow generation, and platform sync. One command turns a blank project into a fully-configured AI workspace.
 
+### 4. Work
 
+Your AI now has expert knowledge, structured workflows, persistent memory, and platform-synced rules. Just build.
 
-### ⚡️ Skills (Capabilities)
-Skills are modular capabilities that provide domain expertise and extend functionality beyond simple prompts. They use **Progressive Disclosure** to keep your context window efficient:
+---
 
-```
-┌──────────────────────┐      ┌────────────────────────┐      ┌──────────────────────┐
-│  Level 1: Metadata   │  ->  │  Level 2: Instructions │  ->  │  Level 3: Resources  │
-│   (Always Loaded)    │      │    (Loaded on Use)     │      │     (As Needed)      │
-└──────────────────────┘      └────────────────────────┘      └──────────────────────┘
-   ~100 tokens/skill                ~2k tokens                     Unlimited
-```
+## 49 Bundled Skills
 
-**Why this matters:** You can have 50+ skills installed (PDF reading, Database access, Graphing), but Claude only "pays" the token cost for the ones it actually uses in the current session.
+### Architecture & Patterns
 
-### 🛠️ Commands (Workflows)
-Commands are user-defined operations that expand into complex prompts. Typing `/commit` isn't just a text shortcut—it triggers a multi-step guided workflow that ensures your commit messages follow team standards, every time.
+| Skill | What It Brings |
+|-------|---------------|
+| `clean-architecture-ddd` | Domain-Driven Design with Clean Architecture — entities, aggregates, use cases, dependency rule |
+| `domain-driven-hexagon` | DDD + Hexagonal Architecture + CQRS — vertical slices, ports & adapters, domain events |
 
-## Commands
+### Backend
+
+| Skill | What It Brings |
+|-------|---------------|
+| `fastapi` | Python FastAPI expert — async APIs, SQLAlchemy 2.0, Pydantic v2, uv |
+| `python-fastapi` | Python FastAPI project structure and production patterns |
+| `elysiajs-ddd` | ElysiaJS + DDD + Prisma + Better Auth on Bun runtime |
+| `elysiajs-ddd-mongoose` | ElysiaJS + DDD + MongoDB/Mongoose + Better Auth on Bun |
+
+### Frontend
+
+| Skill | What It Brings |
+|-------|---------------|
+| `react` | React + Vite + TanStack (Query, Table, Router) + shadcn/ui + Zustand + Zod |
+| `nextjs` | Next.js 15 App Router, Server Components, Server Actions, fullstack patterns |
+| `uiux-design-expert` | Design systems, glassmorphism, neumorphism, brutalism, accessibility |
+| `web-design-guidelines` | Web Interface Guidelines compliance and auditing |
+| `vercel-react-best-practices` | React/Next.js performance optimization from Vercel Engineering |
+| `vercel-composition-patterns` | Component composition patterns that scale — compound components, render props |
+| `framer-motion` | Framer Motion performance — 42 rules for animations, gestures, layout, scroll, SVG |
+| `shadcn-ui` | shadcn/ui component management — add, configure, and use 50+ Radix-based components |
+| `slidev` | Slidev presentations — Markdown slides with Vue 3, animations, code highlighting, LaTeX, Mermaid |
+
+### Auth
+
+| Skill | What It Brings |
+|-------|---------------|
+| `better-auth` | Better Auth integration — OAuth, 2FA, sessions, organizations, security hardening |
+
+### Mobile
+
+| Skill | What It Brings |
+|-------|---------------|
+| `react-native` | React Native CLI bare workflow, native modules, platform-specific code |
+| `react-native-expo` | Expo managed workflow, Expo Router, rapid mobile development |
+| `react-native-best-practices` | Performance: FPS, TTI, bundle size, Hermes, FlashList, animations |
+| `vercel-react-native-skills` | React Native + Expo best practices for performant mobile apps |
+| `mobile-app-distribution` | App Store + Google Play publishing, signing, review guidelines |
+
+### Database
+
+| Skill | What It Brings |
+|-------|---------------|
+| `database-expert` | Schema design, query optimization across PostgreSQL, MySQL, MongoDB |
+| `pgvector` | Vector similarity search for Postgres — HNSW, IVFFlat, hybrid search |
+| `zvec` | Zvec vector database — collections, embeddings, similarity search |
+
+### Workflow & Orchestration
+
+| Skill | What It Brings |
+|-------|---------------|
+| `cook` | Auto-generated workflow orchestration based on detected project type |
+| `cook-backend` | Backend workflow: Plan → Code → Review → Test |
+| `cook-frontend` | Frontend workflow: Plan → Design → Code → Review → Test |
+| `cook-mobile` | Mobile workflow: Plan → Design → Code → Review → Test |
+| `cook-fullstack` | Fullstack workflow: Plan → Design → Code API → Code UI → Review → Test |
+| `cook-cli` | CLI workflow: Plan → Code → Review → Test |
+| `cook-library` | Library workflow: Plan → Design → Code → Review → Test |
+| `memory-bank` | Persistent project documentation across sessions |
+| `agents` | AGENTS.md — universal AI agent configuration standard |
+| `setup` | Auto-detect project stack and install matching skills |
+| `skill-creator` | Create new skills with proper structure and conventions |
+| `figma-make-website-builder` | 9-phase workflow for production websites with Figma Make |
+
+### DevOps & Tooling
+
+| Skill | What It Brings |
+|-------|---------------|
+| `git-expert` | Merge conflicts, branching strategies, history rewriting |
+| `github` | GitHub patterns — PRs, stacked PRs, code review, gh CLI |
+| `github-actions` | CI/CD workflows, security, caching, matrix strategies |
+| `terraform` | Terraform/OpenTofu — modules, testing, CI/CD, security scanning, state management |
+| `chrome-devtools` | Browser automation, debugging, performance via MCP |
+| `cli-expert` | CLI development — Unix philosophy, argument parsing, interactive modes |
+| `typescript-expert` | Type system mastery, generics, module resolution, compiler config |
+| `testing-expert` | Jest/Vitest, mocking, test architecture, TDD patterns |
+| `linting-expert` | ESLint, Prettier, static analysis, coding standards |
+| `eslint-fix` | Automated ESLint error analysis and fixing with iterative verification |
+
+### Data & Documents
+
+| Skill | What It Brings |
+|-------|---------------|
+| `data-analysis` | Data science, ML, Python data tools, statistics, NLP, time series, MLOps |
+| `data-visualization` | Charts, graphs, and visualizations from data |
+| `pdf-processing` | PDF text extraction, form filling, document merging |
+
+---
+
+## Stack Detection & Setup
+
+The **setup** skill scans your project files, identifies every technology in your stack, and maps them to expert skills. It also detects your **project type** (backend, frontend, mobile, fullstack, CLI, library) to generate a matching Cook workflow. Here's what it recognizes:
+
+### Fully Supported Stacks
+
+| Stack | Auto-Installed Skills |
+|-------|----------------------|
+| **Python + FastAPI + uv** | `fastapi`, `python-fastapi`, `database-expert`, `cook-backend` |
+| **NestJS + PostgreSQL** | `typescript-expert`, `database-expert`, `clean-architecture-ddd`, `domain-driven-hexagon`, `cook-backend` |
+| **Bun + ElysiaJS + MongoDB** | `elysiajs-ddd-mongoose`, `typescript-expert`, `database-expert`, `cook-backend` |
+| **Bun + ElysiaJS + PostgreSQL** | `elysiajs-ddd`, `typescript-expert`, `database-expert`, `cook-backend` |
+| **Next.js + React** | `nextjs`, `typescript-expert`, `vercel-react-best-practices`, `vercel-composition-patterns`, `cook-fullstack` |
+| **React SPA** | `react`, `typescript-expert`, `uiux-design-expert`, `web-design-guidelines`, `cook-frontend` |
+| **React Native + Expo** | `react-native-expo`, `react-native-best-practices`, `mobile-app-distribution`, `cook-mobile` |
+| **CLI tools** | `cli-expert`, `typescript-expert`, `cook-cli` |
+
+### Recommended React Stack
+
+When React or Next.js is detected, setup recommends the following libraries if not already present:
+
+| Library | Purpose |
+|---------|---------|
+| TanStack Query | Server state & data fetching |
+| TanStack Table | Headless table/datagrid |
+| Zod | Schema validation |
+| Zustand | Client state management |
+| Axios | HTTP client |
+| React Hook Form | Form handling |
+| Recharts | Charts (when needed) |
+
+### Other Languages
+
+Go, Rust, Ruby, PHP, .NET, Java/Kotlin, Swift, Elixir, C/C++ — detected and matched with baseline skills (`memory-bank`, `git-expert`, `testing-expert`, appropriate cook variant).
+
+---
+
+## CLI Reference
 
 ### `codekit init`
 
-Initialize a new Claude project with the `.claude/` directory structure.
-
 ```bash
-codekit init              # Interactive setup
+codekit init              # Interactive setup with skill selection
 codekit init --yes        # Accept all defaults
-codekit init --global     # Initialize ~/.claude instead
+codekit init --global     # Initialize ~/.claude (%USERPROFILE%\.claude on Windows)
 codekit init --dry-run    # Preview without writing
+codekit init --force      # Overwrite existing
 ```
-
-**Options:**
-- `-g, --global` - Initialize in global `~/.claude` directory
-- `-y, --yes` - Accept all defaults without prompting
-- `-f, --force` - Overwrite existing configuration
-- `--dry-run` - Show what would be created without writing
 
 ### `codekit learn`
 
-Scan an existing project and create AI assistant rules for multiple platforms. This command:
-- Detects tech stack (languages, frameworks, build tools, testing)
-- **Scans all package dependencies** from language-specific package files
-- Analyzes project structure and patterns
-- **Generates rules for Claude, Cursor, and Gemini** from a single scan
-- Creates `memory-bank/` with structured context files
-
 ```bash
-codekit learn              # Interactive - choose platforms
-codekit learn --all        # Generate rules for all platforms
-codekit learn -p claude,cursor  # Specific platforms
-codekit learn --yes        # Accept defaults (Claude + memory-bank)
-codekit learn --claude-md  # Legacy: only CLAUDE.md
-codekit learn --memory-bank # Only create memory-bank
-codekit learn --dry-run    # Preview what would be created
+codekit learn             # Interactive — choose platforms
+codekit learn --all       # Generate for Claude + Cursor + Gemini
+codekit learn -p claude   # Specific platform
+codekit learn --dry-run   # Preview
 ```
 
-**Options:**
-- `-a, --all` - Generate rules for all supported platforms
-- `-p, --platforms <list>` - Comma-separated platforms: claude,cursor,gemini
-- `-f, --force` - Overwrite existing files
-- `-y, --yes` - Accept all defaults without prompting
-- `--dry-run` - Show what would be created without writing
-- `--claude-md` - Only create/update CLAUDE.md (legacy)
-- `--memory-bank` - Only create/update memory-bank
-
-**Supported package formats:**
+Detects 10+ language ecosystems:
 
 | Language | Package Files |
 |----------|---------------|
@@ -160,328 +378,170 @@ codekit learn --dry-run    # Preview what would be created
 | Rust | `Cargo.toml` |
 | Go | `go.mod` |
 | Ruby | `Gemfile` |
-| Java | `pom.xml`, `build.gradle`, `build.gradle.kts` |
+| Java/Kotlin | `pom.xml`, `build.gradle`, `build.gradle.kts` |
 | PHP | `composer.json` |
 | .NET | `*.csproj` |
 | Swift | `Package.swift` |
 | Elixir | `mix.exs` |
 
-**What it creates:**
-
-```
-project/
-├── CLAUDE.md              # Rules for Claude Code
-├── .cursorrules           # Rules for Cursor IDE
-├── GEMINI.md              # Rules for Gemini CLI
-└── memory-bank/           # Persistent context (shared)
-    ├── projectbrief.md    # Core requirements and goals
-    ├── productContext.md  # Problem and solution context
-    ├── techContext.md     # Tech stack, setup, and dependencies
-    ├── systemPatterns.md  # Architecture patterns
-    ├── activeContext.md   # Current work focus
-    └── progress.md        # Status and progress
-```
-
 ### `codekit sync`
 
-Synchronize AI assistant rules across all platforms by regenerating them from the current project state.
-
 ```bash
-codekit sync               # Interactive - choose platforms to sync
-codekit sync -p claude,cursor  # Sync specific platforms
-codekit sync --force       # Overwrite without prompting
-codekit sync --dry-run     # Preview what would be synced
+codekit sync                   # Regenerate all platform configs
+codekit sync -p claude,cursor  # Specific platforms
+codekit sync --force           # Overwrite without asking
 ```
-
-**Options:**
-- `-p, --platforms <list>` - Comma-separated platforms to sync
-- `-f, --force` - Overwrite all existing files without prompting
-- `-y, --yes` - Accept all defaults without prompting
-- `--dry-run` - Show what would be updated without writing
-
-**Use cases:**
-- Project dependencies have changed
-- You want to update all AI assistant configs at once
-- New platform files need to be generated
 
 ### `codekit skills`
 
-Manage skill definitions. Skills are directory-based resources with domain expertise, instructions, and optional scripts.
-
-#### List Skills
-
 ```bash
-codekit skills list           # Show bundled and installed skills
-codekit skills list --global  # Show global skills only
-codekit skills ls             # Alias for list
+codekit skills list              # All skills with install status
+codekit skills list --installed  # Only installed
+codekit skills list --available  # Only not installed
+codekit skills add <name>        # Install a skill
+codekit skills add <name> -g     # Install globally
+codekit skills remove <name>     # Uninstall
+codekit skills related <name>    # Show skill mesh relationships
 ```
-
-**Output shows:**
-- Bundled skills organized by category
-- Installed status (checkmark indicates installed)
-- Global skills from `~/.claude/skills/`
-- Project skills from `./.claude/skills/`
-
-#### Add Skill
-
-```bash
-codekit skills add <name>           # Install from bundled templates
-codekit skills add typescript-expert
-codekit skills add react --global
-codekit skills add cli-expert --force      # Overwrite existing
-codekit skills add database-expert --dry-run
-```
-
-**Options:**
-- `-g, --global` - Install to `~/.claude/skills/`
-- `-f, --force` - Overwrite if already installed
-- `--skip-deps` - Skip installing dependencies
-- `--dry-run` - Preview without writing
-
-#### Remove Skill
-
-```bash
-codekit skills remove <name>         # Remove installed skill
-codekit skills rm typescript-expert  # Alias
-codekit skills remove react --global
-```
-
-**Options:**
-- `-g, --global` - Remove from `~/.claude/skills/`
-- `-f, --force` - Skip confirmation prompt
 
 ### `codekit commands`
 
-Manage slash command definitions. Commands are user-defined operations that expand to prompts.
-
 ```bash
-codekit commands list
-codekit commands add git/commit
-codekit commands remove code-review --global
+codekit commands list             # All commands
+codekit commands add git/commit   # Install a command
+codekit commands remove <name>    # Uninstall
 ```
 
-Same options as skills commands.
-
-## Bundled Templates
-
-### Skills
-
-| Category | Skill | Description |
-|----------|-------|-------------|
-| **backend** | fastapi | Python FastAPI, SQLAlchemy 2.0, Pydantic v2, uv, async APIs |
-| **backend** | python-fastapi | Python FastAPI project patterns and structure |
-| **backend** | elysiajs-ddd | ElysiaJS with DDD, Prisma, Better Auth, Bun runtime |
-| **backend** | elysiajs-ddd-mongoose | ElysiaJS with DDD, MongoDB, Mongoose, Better Auth |
-| **code-quality** | linting-expert | ESLint, Prettier, static analysis, CI/CD quality gates |
-| **data** | data-visualization | Create charts and visualizations |
-| **database** | database-expert | Database optimization across PostgreSQL, MySQL, MongoDB |
-| **devops** | cli-expert | npm CLI development, Unix philosophy, argument parsing |
-| **document** | pdf-processing | Extract and analyze PDF content |
-| **frontend** | react | React + Vite, TanStack, shadcn/ui, state management |
-| **frontend** | nextjs | Next.js 15, App Router, Server Components, Server Actions |
-| **frontend** | uiux-design-expert | Design systems, glassmorphism, accessibility |
-| **git** | git-expert | Merge conflicts, branching, history management |
-| **mobile** | react-native | React Native with native modules |
-| **mobile** | react-native-expo | React Native with Expo workflow |
-| **testing** | testing-expert | Jest/Vitest, mocking patterns, test architecture |
-| **typescript** | typescript-expert | Type system, generics, compiler configuration |
-| **workflow** | memory-bank | Persistent project context across sessions |
-
-### Commands
-
-| Category | Command | Description |
-|----------|---------|-------------|
-| **git** | commit | Create commits following project style |
-| **git** | status | Analyze git status with insights |
-| **code** | code-review | Multi-aspect code review |
-| **code** | validate-and-fix | Run quality checks and auto-fix |
-
-## Directory Structure
-
-codekit manages the following directory structure:
-
-```
-.claude/                    # Project-level (or ~/.claude/ for global)
-├── skills/                 # Skill directories
-│   ├── typescript-expert/
-│   │   └── SKILL.md        # Required: skill instructions
-│   └── pdf-processing/
-│       ├── SKILL.md        # Required: skill instructions
-│       └── scripts/        # Optional: helper scripts
-└── commands/               # Slash commands
-    └── git/
-        └── commit.md
-```
-
-## Resource Format
-
-### Skill Format
-
-Skills are directories with a required `SKILL.md`:
-
-```markdown
----
-name: my-skill
-description: What the skill does and when to use it
 ---
 
-# My Skill
+## How It Works
 
-## Instructions
-[Step-by-step guidance for Claude]
+### Progressive Skill Loading
 
-## Examples
-[Concrete examples of using this skill]
+```
+┌──────────────────────┐      ┌────────────────────────┐      ┌──────────────────────┐
+│  Level 1: Metadata   │  ->  │  Level 2: Instructions │  ->  │  Level 3: Resources  │
+│   (Always Loaded)    │      │    (Loaded on Use)     │      │     (As Needed)      │
+└──────────────────────┘      └────────────────────────┘      └──────────────────────┘
+   ~100 tokens/skill                ~2K tokens                     Unlimited
 ```
 
-**Skill naming requirements:**
-- Maximum 64 characters
-- Lowercase letters, numbers, and hyphens only
-- Cannot contain reserved words: "anthropic", "claude"
-- Description maximum 1024 characters
+### Skill Mesh Network
 
-See [SKILLS.md](SKILLS.md) for comprehensive skill documentation.
+49 skills connected by 150+ bidirectional relationships. Three relationship types:
 
-### Command Format
+- **enhances** — makes another skill more effective (e.g., `typescript-expert` enhances `react`)
+- **complementary** — works well alongside (e.g., `framer-motion` + `uiux-design-expert`)
+- **alternative** — use one or the other (e.g., `react` vs `nextjs`)
 
-Commands use similar YAML frontmatter:
+The mesh drives two key features:
+1. **`codekit skills related <name>`** — discover what pairs well with any skill
+2. **`setup` skill** — uses the mesh to suggest related skills after auto-detection
 
-```markdown
+See the full Mermaid diagram: [`docs/skill-graph.md`](docs/skill-graph.md)
+
+### Directory Structure
+
+```
+project/
+├── .claude/
+│   ├── skills/                    # Installed skills
+│   │   ├── cook-fullstack/
+│   │   │   └── SKILL.md
+│   │   ├── typescript-expert/
+│   │   │   └── SKILL.md
+│   │   └── react/
+│   │       ├── SKILL.md
+│   │       └── references/        # Optional deep-dive docs
+│   └── commands/                  # Slash commands
+│       └── git/
+│           └── commit.md
+├── AGENTS.md                      # Universal AI agent config (agents.md standard)
+├── CLAUDE.md                      # Generated rules for Claude Code
+├── .cursorrules                   # Generated rules for Cursor
+├── GEMINI.md                      # Generated rules for Gemini CLI
+└── memory-bank/                   # Persistent project context
+    ├── projectbrief.md
+    ├── productContext.md
+    ├── techContext.md
+    ├── systemPatterns.md
+    ├── activeContext.md
+    └── progress.md
+```
+
 ---
-description: What the command does
-allowed-tools: Bash, Read, Edit
-argument-hint: "[optional args]"
+
+## Installation
+
+### From Source
+
+```bash
+git clone <repo>
+cd codekit
+bun install
+bun run dev -- <command>
+```
+
+### Compiled Binary
+
+```bash
+bun run build
+
+# macOS / Linux
+./dist/codekit-darwin-arm64 --version
+
+# Windows
+.\dist\codekit-windows-x64.exe --version
+```
+
+**Platforms:** macOS (ARM/x64), Linux (ARM/x64), Windows (x64)
+
+> **Windows note:** codekit uses directory junctions (no admin privileges needed) for skill symlinks. All CLI paths adapt automatically — `--global` targets `%USERPROFILE%\.claude` instead of `~/.claude`.
+
 ---
-
-Command prompt instructions...
-```
-
-## Global vs Project Scope
-
-| Scope | Location | Flag | Use Case |
-|-------|----------|------|----------|
-| **Project** | `./.claude/` | (default) | Project-specific configuration |
-| **Global** | `~/.claude/` | `--global` | Shared across all projects |
-
-Project-level resources take precedence over global resources with the same name.
-
-## Examples
-
-### Learning an Existing Project
-
-```bash
-# Scan project and create context files
-codekit learn
-
-# This creates:
-# - CLAUDE.md with project rules
-# - memory-bank/ with 6 context files
-
-# Review and customize the generated files
-# Then Claude Code will understand your project!
-```
-
-### Setting Up a TypeScript Project
-
-```bash
-# Initialize project
-codekit init
-
-# Add relevant skills
-codekit skills add typescript-expert
-codekit skills add linting-expert
-codekit skills add testing-expert
-
-# Add useful commands
-codekit commands add git/commit
-codekit commands add validate-and-fix
-```
-
-### Setting Up Global Defaults
-
-```bash
-# Initialize global config
-codekit init --global
-
-# Add commonly used skills globally
-codekit skills add git-expert --global
-codekit skills add cli-expert --global
-```
-
-### Checking What's Installed
-
-```bash
-# See all skills with installation status
-codekit skills list
-
-# Output example:
-# Bundled Skills
-#   typescript
-#     ✓ typescript-expert - TypeScript Expert
-#
-# Global Skills (~/.claude/skills/)
-#   ✓ git-expert - Git Expert
-#
-# Project Skills (./.claude/skills/)
-#   ✓ typescript-expert - TypeScript Expert
-```
-
-### Preview Before Installing
-
-```bash
-# See what would be installed
-codekit skills add react --dry-run
-
-# Output shows file paths and content that would be written
-```
 
 ## Development
 
-### Running Locally
-
 ```bash
-bun install
-bun run dev -- skills list
+bun install                      # Install dependencies
+bun run dev -- skills list       # Run in dev mode
+bun run test                     # Run tests
+bun run typecheck                # Type check
+bun run build:vfs                # Regenerate template VFS
+bun run build                    # Build binary
 ```
 
-### Building
+### Adding a New Skill
 
-```bash
-# Generate embedded templates (VFS)
-bun run build:vfs
-
-# Build binary
-bun run build
-```
-
-### Adding New Templates
-
-1. Create a skill directory in `templates/skills/<name>/SKILL.md` or a command file in `templates/commands/<category>/<name>.md`
-2. Add entry to the appropriate `templates/<type>/index.json` manifest
-3. Rebuild VFS: `bun run build:vfs`
+1. Create `templates/skills/<name>/SKILL.md`
+2. Add entry to `templates/skills/index.json` (with `relatedSkills` for mesh connections)
+3. Run `bun run build:vfs`
 
 ### Architecture
 
 ```
 src/
-├── index.ts              # Entry point
-├── cli.ts                # CLI setup with commander.js
-├── commands/             # Command handlers
-│   ├── skills/           # Skill management (list, add, remove)
-│   ├── commands/         # Command management (list, add, remove)
-│   ├── init.ts           # Project initialization
-│   └── learn.ts          # Project scanning/learning
-├── core/                 # Core managers
-│   ├── resource-manager.ts   # Abstract base for managing resources
-│   ├── skill-manager.ts      # Skill-specific manager
-│   ├── command-manager.ts    # Command-specific manager
-│   └── template-loader.ts    # Loads bundled templates from VFS
-├── types/                # TypeScript interfaces
-└── utils/                # Utilities
-    ├── paths.ts          # Path resolution (.claude vs ~/.claude)
-    ├── logger.ts         # Console output with styling
-    ├── yaml-parser.ts    # YAML frontmatter parsing
-    └── project-scanner.ts # Project analysis for `codekit learn`
+├── index.ts                 # Entry point
+├── cli.ts                   # Commander.js CLI setup
+├── commands/
+│   ├── skills/              # list, add, remove, related
+│   ├── commands/            # list, add, remove
+│   ├── init.ts              # Project initialization
+│   ├── learn.ts             # Project scanning
+│   └── sync.ts              # Multi-platform sync
+├── core/
+│   ├── resource-manager.ts  # Abstract base
+│   ├── skill-manager.ts     # Skill operations
+│   ├── command-manager.ts   # Command operations
+│   └── template-loader.ts   # VFS template resolution
+├── types/                   # TypeScript interfaces
+└── utils/
+    ├── skill-graph.ts       # Mesh network resolver
+    ├── installed-skills.ts  # Installed skills scanner
+    ├── platform-rules.ts    # Multi-platform rule generation
+    ├── project-scanner.ts   # Codebase analysis
+    ├── paths.ts             # Path resolution
+    └── logger.ts            # Styled console output
 ```
 
 ## License

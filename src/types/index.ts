@@ -34,6 +34,21 @@ export interface Skill {
   source: ResourceSource;
 }
 
+// Skill relationship types for mesh network
+export interface RelatedSkillEntry {
+  name: string;
+  relationship: "enhances" | "complementary" | "alternative";
+}
+
+export interface InstalledSkillInfo {
+  name: string;
+  displayName: string;
+  description: string;
+  category: string;
+  path: string;
+  relatedSkills: RelatedSkillEntry[];
+}
+
 // Manifest types for bundled templates
 export interface ResourceManifestEntry {
   name: string;
@@ -42,6 +57,7 @@ export interface ResourceManifestEntry {
   category?: string;
   description: string;
   dependencies?: string[];
+  relatedSkills?: RelatedSkillEntry[];
   tags?: string[];
   source?: string; // marks entry as source-synced (e.g. "agent-skills")
 }

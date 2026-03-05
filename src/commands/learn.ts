@@ -15,6 +15,7 @@ import {
   PLATFORMS,
   type AIPlatform,
 } from "../utils/platform-rules";
+import { getInstalledSkillsInfo } from "../utils/installed-skills";
 import { join } from "path";
 
 interface LearnOptions extends GlobalOptions {
@@ -35,7 +36,7 @@ export function createLearnCommand(): Command {
     .option("-y, --yes", "Accept all defaults without prompting")
     .option("--claude-md", "Only create/update CLAUDE.md (legacy option)")
     .option("--memory-bank", "Only create/update memory-bank")
-    .option("-p, --platforms <platforms>", "Comma-separated platforms: claude,cursor,gemini")
+    .option("-p, --platforms <platforms>", "Comma-separated platforms: claude,cursor,gemini,agents")
     .option("-a, --all", "Generate rules for all supported platforms")
     .action(learnProject);
 }
@@ -51,6 +52,7 @@ async function learnProject(options: LearnOptions): Promise<void> {
     spinner.start("Scanning project...");
 
     const context = await scanProject(rootDir);
+    const installedSkills = await getInstalledSkillsInfo();
 
     spinner.stop("Project scanned");
 
@@ -129,6 +131,7 @@ async function learnProject(options: LearnOptions): Promise<void> {
       claude: false,
       cursor: false,
       gemini: false,
+      agents: false,
     };
 
     for (const platform of selectedPlatforms) {
@@ -198,7 +201,7 @@ async function learnProject(options: LearnOptions): Promise<void> {
 
     // Generate and write platform rules
     let created = 0;
-    const allRules = generateAllPlatformRules(context);
+    const allRules = generateAllPlatformRules(context, installedSkills);
 
     for (const platform of selectedPlatforms) {
       const filePath = getPlatformFilePath(platform, rootDir);

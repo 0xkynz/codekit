@@ -1,16 +1,20 @@
 import { Command } from "commander";
 import * as prompts from "@clack/prompts";
 import type { InitOptions, ResourceType } from "../types";
-import { getClaudeDir, getGeminiDir, ensureDir, pathExists } from "../utils/paths";
+import { getClaudeDir, getGeminiDir, ensureDir, pathExists, displayHome } from "../utils/paths";
+import { join } from "path";
 import { logger, style } from "../utils/logger";
 import { templateLoader } from "../core/template-loader";
 import { skillManager } from "../core/skill-manager";
 import { commandManager } from "../core/command-manager";
+import { buildSkillGraph } from "../utils/skill-graph";
+import { getInstalledSkillsInfo } from "../utils/installed-skills";
+import type { InstalledSkillInfo } from "../types";
 
 export function createInitCommand(): Command {
   return new Command("init")
     .description("Initialize a new Claude project with skills and commands")
-    .option("-g, --global", "Initialize in global ~/.claude directory")
+    .option("-g, --global", `Initialize in global ${displayHome()}/.claude directory`)
     .option("-y, --yes", "Accept all defaults without prompting")
     .option("-f, --force", "Overwrite existing configuration")
     .option("--dry-run", "Show what would be created without writing")
@@ -102,6 +106,7 @@ async function initProject(options: InitOptions): Promise<void> {
         const selected = await prompts.multiselect({
           message: `Select ${type} to install:`,
           options: templateOptions,
+          initialValues: type === "skills" ? ["setup"] : ([] as string[]),
           required: false,
         });
 
@@ -112,6 +117,37 @@ async function initProject(options: InitOptions): Promise<void> {
 
         if ((selected as string[]).length > 0) {
           toInstall.set(type, selected as string[]);
+        }
+      }
+    }
+
+    // Phase 2: Suggest related skills based on selection
+    const selectedSkills = toInstall.get("skills");
+    if (selectedSkills && selectedSkills.length > 0 && !options.yes) {
+      const graph = await buildSkillGraph();
+      const suggestions = graph.getSuggestionsForSelection(selectedSkills);
+
+      if (suggestions.length > 0) {
+        const suggestionOptions = suggestions.map(s => {
+          const hints = s.relationships
+            .map(r => `${r.type} ${r.skill}`)
+            .join(", ");
+          return {
+            value: s.name,
+            label: s.displayName,
+            hint: hints,
+          };
+        });
+
+        const additional = await prompts.multiselect({
+          message: "These related skills complement your selection. Add any?",
+          options: suggestionOptions,
+          required: false,
+        });
+
+        if (!prompts.isCancel(additional) && (additional as string[]).length > 0) {
+          const merged = [...selectedSkills, ...(additional as string[])];
+          toInstall.set("skills", merged);
         }
       }
     }
@@ -148,13 +184,13 @@ async function initProject(options: InitOptions): Promise<void> {
 
     await ensureDir(targetDir);
     for (const type of resourceTypes) {
-      await ensureDir(`${targetDir}/${type}`);
+      await ensureDir(join(targetDir, type));
     }
 
     // Create Gemini Antigravity directories for skills
     if (resourceTypes.includes("skills")) {
       const geminiDir = getGeminiDir(options);
-      await ensureDir(`${geminiDir}/skills`);
+      await ensureDir(join(geminiDir, "skills"));
     }
 
     spinner.stop("Directories created");
@@ -188,7 +224,7 @@ async function initProject(options: InitOptions): Promise<void> {
 
     // Create CLAUDE.md if not global and doesn't exist
     if (!options.global) {
-      const claudeMdPath = `${process.cwd()}/CLAUDE.md`;
+      const claudeMdPath = join(process.cwd(), "CLAUDE.md");
       if (!(await pathExists(claudeMdPath))) {
         const createClaudeMd = options.yes
           ? true
@@ -197,6 +233,10 @@ async function initProject(options: InitOptions): Promise<void> {
             });
 
         if (!prompts.isCancel(createClaudeMd) && createClaudeMd) {
+          // Scan installed skills to include in CLAUDE.md
+          const installedSkills = await getInstalledSkillsInfo();
+          const skillsSection = generateInitSkillsSection(installedSkills);
+
           await Bun.write(
             claudeMdPath,
             `# Project Configuration for Claude
@@ -212,7 +252,7 @@ async function initProject(options: InitOptions): Promise<void> {
 
 ## Architecture
 <!-- Describe your project architecture -->
-`
+${skillsSection}`
           );
           logger.success("Created CLAUDE.md");
         }
@@ -227,4 +267,46 @@ async function initProject(options: InitOptions): Promise<void> {
     logger.error(error instanceof Error ? error.message : "Failed to initialize");
     process.exit(1);
   }
+}
+
+/**
+ * Generate an installed skills section for CLAUDE.md during init.
+ * Tells Claude what skills are available and where to find them.
+ */
+function generateInitSkillsSection(skills: InstalledSkillInfo[]): string {
+  if (skills.length === 0) return "";
+
+  const lines: string[] = [
+    "\n## Installed Skills\n",
+    "The following skills are installed and available. Read the skill file when working on related tasks.\n",
+  ];
+
+  // Group by category
+  const byCategory = new Map<string, InstalledSkillInfo[]>();
+  for (const skill of skills) {
+    const cat = skill.category || "general";
+    const existing = byCategory.get(cat) || [];
+    existing.push(skill);
+    byCategory.set(cat, existing);
+  }
+
+  for (const category of Array.from(byCategory.keys()).sort()) {
+    const categorySkills = byCategory.get(category)!;
+    lines.push(`### ${category.charAt(0).toUpperCase() + category.slice(1)}\n`);
+
+    for (const skill of categorySkills) {
+      lines.push(`- **${skill.displayName}** (\`${skill.path}/SKILL.md\`)`);
+      lines.push(`  ${skill.description}`);
+
+      if (skill.relatedSkills.length > 0) {
+        const related = skill.relatedSkills
+          .map(r => `${r.name} (${r.relationship})`)
+          .join(", ");
+        lines.push(`  Related: ${related}`);
+      }
+    }
+    lines.push("");
+  }
+
+  return lines.join("\n");
 }

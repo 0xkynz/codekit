@@ -2,6 +2,16 @@ import { homedir } from "os";
 import { join, dirname, basename, relative } from "path";
 import type { ResourceType, GlobalOptions } from "../types";
 
+export const isWindows = process.platform === "win32";
+
+/**
+ * Return a display-friendly home directory prefix for help text.
+ * Unix: ~   Windows: %USERPROFILE%
+ */
+export function displayHome(): string {
+  return isWindows ? "%USERPROFILE%" : "~";
+}
+
 /**
  * Get the .claude directory path based on scope
  */
@@ -74,7 +84,7 @@ export function getTemplatesDir(): string {
  * Extract resource name from file path
  */
 export function extractResourceName(filePath: string, baseDir: string): string {
-  const relativePath = filePath.replace(baseDir, "").replace(/^\//, "");
+  const relativePath = filePath.replace(baseDir, "").replace(/^[/\\]/, "");
   // Remove .md extension and return
   return relativePath.replace(/\.md$/, "");
 }
@@ -86,7 +96,8 @@ export async function createSymlink(targetPath: string, linkPath: string): Promi
   const { symlink } = await import("fs/promises");
   const linkDir = dirname(linkPath);
   const relativeTarget = relative(linkDir, targetPath);
-  await symlink(relativeTarget, linkPath);
+  // On Windows, use 'junction' for directory symlinks (no admin privileges required)
+  await symlink(relativeTarget, linkPath, isWindows ? "junction" : undefined);
 }
 
 /**
